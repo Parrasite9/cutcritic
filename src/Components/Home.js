@@ -1,11 +1,11 @@
 import React from 'react'
 
-function App() {
+function Home() {
   return (
     <div>
-      THIS IS APP COMPONENT
+      
     </div>
   )
 }
 
-export default App
+export default Home
