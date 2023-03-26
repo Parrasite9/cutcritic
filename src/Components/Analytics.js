@@ -1,4 +1,5 @@
 import React from 'react'
+import './../CSS/Analytics.css'
 
 function Analytics() {
   return (
