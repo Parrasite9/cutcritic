@@ -1,8 +1,9 @@
 import React from 'react'
+import './../CSS/Analytics.css'
 
 function Analytics() {
   return (
-    <div>
+    <div className='analytics'>
 
     </div>
   )

@@ -1,8 +1,9 @@
 import React from 'react'
+import './../CSS/Booking.css'
 
 function Booking() {
   return (
-    <div>
+    <div className='bookings'>
       This is Booking
     </div>
   )

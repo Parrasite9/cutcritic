@@ -1,8 +1,9 @@
 import React from 'react'
+import './../CSS/Hero.css'
 
 function Home() {
   return (
-    <div>
+    <div className='home'>
       
     </div>
   )
