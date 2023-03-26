@@ -9,7 +9,7 @@
 .logo__Menu__Container {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .navbar__Container > input {
@@ -20,9 +20,5 @@
 }
 
 .navbar__Container > input:focus {
-    text-indent: 2.5%;
-}
-
-.navbar__Container > input::placeholder {
     text-indent: 2.5%;
 }
