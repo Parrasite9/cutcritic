@@ -22,3 +22,12 @@
 .navbar__Container > input:focus {
     text-indent: 2.5%;
 }
+
+@media (min-width: 900px) {
+    .mobileIcons {
+        display: none !important;
+    }
+    .navlinks {
+        display: flex;
+    }
+}

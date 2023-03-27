@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './../CSS/Navbar.css'
 
 // MUI ICONS 
@@ -31,6 +31,27 @@ function Navbar() {
     setShowMenu(!showMenu)
   }
 
+
+  useEffect(() => {
+    if (window.innerWidth >= 900) {
+      setShowMenu(true)
+    } else {
+      setShowMenu(false)
+    }
+
+    function handleResize() {
+      if (window.innerWidth >= 900) {
+        setShowMenu(true)
+      } else {
+        setShowMenu(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <div className='navbar'>
       <div className="navbar__Container">
@@ -39,7 +60,7 @@ function Navbar() {
 
          {/* Add onClick event listener to MenuIcon to toggle the menu open and closed */}
 
-          <IconButton alignItems="center" size='large'>
+          <IconButton className='mobileIcons' alignItems="center" size='large'>
             {showMenu ? (
               <CloseIcon fontSize='2em' onClick={toggleMenu} />
             ) : (
