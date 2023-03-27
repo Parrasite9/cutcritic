@@ -26,7 +26,7 @@
 }
 
 .navbar__Container > input {
-    width: 100%;
+    width: 98%;
     height: 2.5em;
     font-size: 1em;
     text-indent: 2.5%;
@@ -40,8 +40,16 @@
     .mobileIcons {
         display: none !important;
     }
+    .navbar__Container > input {
+        width: 100%;
+    }
     .navlinks {
         display: flex;
-        justify-content: space-evenly;
+        /* justify-content: space-evenly; */
+        /* padding-left: 25%; */
+        justify-content: flex-end;
+    }
+    .navlinks > div {
+        padding-left: 5%;
     }
 }
