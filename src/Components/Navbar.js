@@ -26,8 +26,6 @@ function Navbar() {
 
 
 
-
-  
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
     setShowMenu(!showMenu)
@@ -39,10 +37,14 @@ function Navbar() {
         <div className="logo__Menu__Container">
           <h1>Cut Critic</h1>
 
-          <IconButton alignItems="center" size='large'>
+         {/* Add onClick event listener to MenuIcon to toggle the menu open and closed */}
 
-            {/* Add onClick event listener to MenuIcon to toggle the menu open and closed */}
-            <MenuIcon fontSize='2em' onClick={toggleMenu} />
+          <IconButton alignItems="center" size='large'>
+            {showMenu ? (
+              <CloseIcon fontSize='2em' onClick={toggleMenu} />
+            ) : (
+              <MenuIcon fontSize='2em' onClick={toggleMenu} />
+            )}
           </IconButton>
         </div>
 
