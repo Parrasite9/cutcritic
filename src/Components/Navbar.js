@@ -12,6 +12,8 @@ function Navbar() {
 
   // Use state hook to track whether the menu is open or closed
   const [showMenu, setShowMenu] = useState(false) 
+  // CURRENT LOG IN STATE 
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
@@ -32,18 +34,30 @@ function Navbar() {
         </div>
 
        {/* Use conditional rendering to show the menu only when menuOpen is true */}
-        {showMenu ? (
-          <>
-            <div className="navlink__Item1">Home</div>
-            <div className="navlink__Item2">Link1</div>
-            <div className="navlink__Item3">Link2</div>
-            <div className="navlink__Item4">Link3</div>
-            <div className="navlink__Item5">Link4</div>
-          </>
-        ) : (
-          <>
-          </>
-        )}
+       
+       {showMenu && (
+        <div className="navlinks">
+          {/* IS THE USER CURRENTLY LOGGED IN?  */}
+          {isLoggedIn ? (
+            <>
+              <div className="navlink__Item1">Home</div>
+              <div className="navlink__Item2">Link1</div>
+              <div className="navlink__Item3">Link2</div>
+              <div className="navlink__Item4">Link3</div>
+              <div className="navlink__Item5">Logout</div>
+            </>
+          ) : (
+            // IS THE USER CURRENTLY LOGGED OUT? 
+            <>
+              <div className="navlink__Item1">Home</div>
+              <div className="navlink__Item2">Link1</div>
+              <div className="navlink__Item3">Link2</div>
+              <div className="navlink__Item4">Link3</div>
+              <div className="navlink__Item5">Login</div>
+            </>
+          )}
+        </div>
+       )}
 
         <input type="text" placeholder='Find services' />
       </div>
