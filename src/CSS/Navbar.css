@@ -7,9 +7,22 @@
 }
 
 .logo__Menu__Container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr 2fr);
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
+
+.logo__Menu__Container > h1 {
+    justify-content: flex-start;
+}
+
+.mobileIcons {
+    justify-content: flex-end !important;
+}
+
+.navlinks {
+    letter-spacing: .1em;
 }
 
 .navbar__Container > input {
@@ -29,5 +42,6 @@
     }
     .navlinks {
         display: flex;
+        justify-content: space-evenly;
     }
 }
