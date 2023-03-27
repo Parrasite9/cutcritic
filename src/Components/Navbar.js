@@ -15,6 +15,19 @@ function Navbar() {
   // CURRENT LOG IN STATE 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  // ====================================
+  // CREATE A FUNCTION THAT CHANGES 
+  // THE LOGIN STATE 
+  // ====================================
+
+
+
+
+
+
+
+
+  
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
     setShowMenu(!showMenu)
