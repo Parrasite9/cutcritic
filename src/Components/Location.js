@@ -42,23 +42,23 @@ function Location() {
     // Use an effect to filter service locations within a 25 mile radius of the user's geolocation
     useEffect(() => {
         if (latitude && longitude) {
-            // Define an array of service locations (you can make this dynamic in your app)
-            const serviceLocations = [
-                // CREATE DYNAMIC LIST OF SERVICES HERE 
-            ]
-
-            // Filter the service locations within a 25 mile radius of the user's geolocation
-            const servicesWithinRadius = serviceLocations.filter((service) => {
-                const distance = google.maps.geometry.spherical.computeDistanceBetween(
-                    new google.maps.Lating(latitude, longitude),
-                    new google.maps.Lating(service.latitude, service.longitutde)
-                )
-                const miles = disnatce * 0.000621371
-                return miles <= 25
+            fetch('/api/serviceLocations').then((response) => 
+                response.json()).then((serviceLocations) => {
+                // Filter the service locations within a 25 mile radius of the user's geolocation
+                const servicesWithinRadius = serviceLocations.filter((service) => {
+                    const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                        new google.maps.Lating(latitude, longitude),
+                        new google.maps.Lating(service.latitude, service.longitutde)
+                    )
+                    const miles = disnatce * 0.000621371
+                    return miles <= 25
+                })
+                // Update the services state variable with the filtered service locations
+                setServices(servicesWithinRadius)
             })
-
-            // Update the services state variable with the filtered service locations
-            setServices(servicesWithinRadius)
+            .catch((error) => {
+                console.log('Error fetching service location: ', err);
+            })
         }
     }, [latitude, longitude])
 
