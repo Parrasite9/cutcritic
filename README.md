@@ -76,3 +76,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - React Router (npm i react-router)
 - MUI UI (npm i @mui/icons-material)
 - MUI Icons (npm install @mui/material @emotion/react @emotion/styled)
+- Firebase (sudo npm install firebase)
