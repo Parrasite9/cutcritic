@@ -31,14 +31,14 @@ function SignUp() {
       <form onSubmit={handleSubmit}>
         {/* FIRST NAME  */}
         <label>
-          First Name
+          First Name <span>*</span>
           <input type="text" value={firstName} onChange={(e) => 
             setFirstName(e.target.value)} required />
         </label>
 
         {/* LAST NAME  */}
         <label>
-          Last Name
+          Last Name <span>*</span>
           <input type="text" value={lastName} onChange={(e) => 
           setLastName(e.target.value)} />
         </label>
@@ -46,21 +46,21 @@ function SignUp() {
 
         {/* EMAIL  */}
         <label>
-          Email
+          Email <span>*</span>
           <input type="text" value={email} onChange={(e) => 
             setEmail(e.target.value)} required />
         </label>
 
         {/* PASSWORD  */}
         <label>
-          Password
+          Password <span>*</span>
           <input type="text" value={password} onChange={(e) => 
             setPassword(e.target.value)} required />
         </label>
 
         {/* CONFIRM PASSWORD  */}
         <label htmlFor="">
-          Confirm Password
+          Confirm Password <span>*</span>
           <input type="text" value={confPassword} onChange={(e) => 
             setConfPassword(e.target.value)} required />
         </label>
