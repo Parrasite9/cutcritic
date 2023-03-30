@@ -12,6 +12,11 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== confPassword) {
+      console.log("Passwords do not match");
+      return
+    }
     try {
       await addUser({ firstName, lastName, email, password, confPassword})
       console.log("User added successfully");
@@ -28,7 +33,7 @@ function SignUp() {
         <label>
           First Name
           <input type="text" value={firstName} onChange={(e) => 
-            setFirstName(e.target.value)} />
+            setFirstName(e.target.value)} required />
         </label>
 
         {/* LAST NAME  */}
@@ -43,21 +48,21 @@ function SignUp() {
         <label>
           Email
           <input type="text" value={email} onChange={(e) => 
-            setEmail(e.target.value)} />
+            setEmail(e.target.value)} required />
         </label>
 
         {/* PASSWORD  */}
         <label>
           Password
           <input type="text" value={password} onChange={(e) => 
-            setPassword(e.target.value)} />
+            setPassword(e.target.value)} required />
         </label>
 
         {/* CONFIRM PASSWORD  */}
         <label htmlFor="">
           Confirm Password
           <input type="text" value={confPassword} onChange={(e) => 
-            setConfPassword(e.target.value)} />
+            setConfPassword(e.target.value)} required />
         </label>
 
         <button type='submit'>Sign Up</button>
