@@ -10,11 +10,33 @@ function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confPassword, setConfPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
+    // CHECKS PASSWORD REQUIREMENTS
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,}$/;
+    const isValidPassword = passwordRegex.test(password);
+    console.log(isValidPassword);
+
+    if (!isValidPassword) {
+      setPasswordError('Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.')
+      return;
+    }
+
+    // YOU CAN PULL DEFAULT AUTHENTICATION FROM FIREBASE AUTH DOCS
     const auth = getAuth();
+
+    // EXCEPT FOR THIS PASSWORD VALIDATION, THIS IS SELF CREATED 
+    if (password.length < 8) {
+      setPasswordError('Password must be at least 8 characters long.')
+      return
+    } else if (password !== confPassword) {
+      setPasswordError('Passwords do not match.')
+      return
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
@@ -64,7 +86,7 @@ function SignUp() {
         </label>
 
         {/* CONFIRM PASSWORD  */}
-        <label htmlFor="">
+        <label>
           Confirm Password <span>*</span>
           <input type="text" value={confPassword} onChange={(e) => 
             setConfPassword(e.target.value)} required />
