@@ -3,6 +3,15 @@ import './../CSS/SignUp.css'
 import { addUser } from '../Firebase/Firebase'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+
+function PasswordError({ errorMessage }) {
+  return (
+    <div style={{ color: 'red' }}>
+      {errorMessage}
+    </div>
+  );
+}
+
 function SignUp() {
 
   const [firstName, setFirstName] = useState('')
@@ -91,6 +100,8 @@ function SignUp() {
           <input type="text" value={confPassword} onChange={(e) => 
             setConfPassword(e.target.value)} required />
         </label>
+        
+        {passwordError && <PasswordError errorMessage={passwordError} />}
 
         <button type='submit'>Sign Up</button>
       </form>
