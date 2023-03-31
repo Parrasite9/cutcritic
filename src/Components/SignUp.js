@@ -13,18 +13,20 @@ function SignUp() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    
+
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         // ...
+        console.log(`User ${user.uid} successfully created. `);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
+        console.error(error.message);
       });
   }
 
