@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyDkIw6H5rzBkKyiEhEKGZEPpfSbHgSB-5Q",
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app)
 
 export async function addUser(firstName, lastName, birthYear) {
   try {
@@ -27,4 +29,4 @@ export async function addUser(firstName, lastName, birthYear) {
   }
 }
 
-export { db };
+export { db, auth };

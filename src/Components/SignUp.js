@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './../CSS/SignUp.css'
 import { addUser } from '../Firebase/Firebase'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function SignUp() {
 
@@ -10,20 +11,22 @@ function SignUp() {
   const [password, setPassword] = useState('')
   const [confPassword, setConfPassword] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (password !== confPassword) {
-      console.log("Passwords do not match");
-      return
-    }
-    try {
-      await addUser({ firstName, lastName, email, password, confPassword})
-      console.log("User added successfully");
-    } catch (err) {
-      console.log("Error adding user: ", err);
-    }
-  } 
+  function handleSubmit(event) {
+    event.preventDefault();
+    
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
 
 
   return (
