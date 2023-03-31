@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { addUser } from "./Firestore";
+import { getAuth } from 'firebase/auth'
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,8 +25,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig, "Cut Critic");
 const analytics = getAnalytics(app);
 const db = getFirestore(app)
+const auth = getAuth(app)
 
 
 
-export { addUser }
-export { db }
+export { addUser, db, auth }
