@@ -3,22 +3,18 @@ import Navbar from './Components/Navbar'
 
 import './App.css'
 import SignUp from './Components/SignUp'
-// import { Route, Router } from 'react-router'
-// import { Switch } from '@mui/material'
 import Login from './Components/Login'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Home from './Components/Home'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 
 function App() {
   return (
     
       <BrowserRouter>
-        <Navbar />
-        <Switch>
-          <Route path='/login'>
-            <Login />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
       </BrowserRouter>
       
   )
