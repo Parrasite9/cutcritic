@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // import Login from './Login'
 
 //   // REACT ROUTER DOM BROWSER ROUTER 
-//   const router = createBrowserRouter([
+  // const router = createBrowserRouter([
 //     {
 //       path: '/login',
 //       element: <Login />
@@ -95,7 +95,7 @@ function Navbar() {
 
             {/* Use conditional rendering to show the menu only when menuOpen is true */}
           
-            <BrowserRouter>
+            {/* <BrowserRouter> */}
               {showMenu && (
                 <div className="navlinks">
                   {/* IS THE USER CURRENTLY LOGGED IN?  */}
@@ -119,7 +119,7 @@ function Navbar() {
                   )}
                 </div>
               )}
-            </BrowserRouter>
+            {/* </BrowserRouter> */}
 
          </>
       )}
@@ -143,7 +143,7 @@ function Navbar() {
             
 
             {/* Use conditional rendering to show the menu only when menuOpen is true */}
-            <BrowserRouter>
+            {/* <BrowserRouter> */}
               {showMenu && (
                 <div className="navlinks">
                   {/* IS THE USER CURRENTLY LOGGED IN?  */}
@@ -167,7 +167,7 @@ function Navbar() {
                   )}
                 </div>
               )}
-            </BrowserRouter>
+            {/* </BrowserRouter> */}
           </div>
          </>
       )}
