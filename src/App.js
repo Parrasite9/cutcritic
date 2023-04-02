@@ -3,14 +3,23 @@ import Navbar from './Components/Navbar'
 
 import './App.css'
 import SignUp from './Components/SignUp'
+import Login from './Components/Login'
+import Home from './Components/Home'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <SignUp />
-    </div>
+    
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+
+          <Route path='/login' element={<Login />}  />
+
+        </Routes>
+      </BrowserRouter>
+      
   )
 }
 

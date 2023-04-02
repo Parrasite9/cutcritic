@@ -199,7 +199,6 @@ function SignUp() {
           <p className={hasLowercase ? 'green' : 'red'}>Must contain one Lowercase letter</p>
           <p className={hasSpecialChar ? 'green' : 'red'}>Must contain a special character: !@#$%^&*()</p>
         </div>
-
         <button type='submit'>Sign Up</button>
       </form>
     </div>
