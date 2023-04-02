@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import './../CSS/Navbar.css'
+import { createBrowserRouter, Link, RouterProvider, BrowserRouter } from 'react-router-dom';
 
 // MUI ICONS 
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+
+// COMPONENTS 
+import Login from './Login'
+
+  // REACT ROUTER DOM BROWSER ROUTER 
+  const router = createBrowserRouter([
+    {
+      path: '/login',
+      element: <Login />
+    }  
+  ])
+
 
 
 function Navbar() {
@@ -82,29 +95,31 @@ function Navbar() {
 
             {/* Use conditional rendering to show the menu only when menuOpen is true */}
           
-            {showMenu && (
-              <div className="navlinks">
-                {/* IS THE USER CURRENTLY LOGGED IN?  */}
-                {isLoggedIn ? (
-                  <>
-                    <div className="navlink__Item1">Home</div>
-                    <div className="navlink__Item2">Link1</div>
-                    <div className="navlink__Item3">Link2</div>
-                    <div className="navlink__Item4">Link3</div>
-                    <div className="navlink__Item5">Logout</div>
-                  </>
-                ) : (
-                  // IS THE USER CURRENTLY LOGGED OUT? 
-                  <>
-                    <div className="navlink__Item1">Home</div>
-                    <div className="navlink__Item2">Link1</div>
-                    <div className="navlink__Item3">Link2</div>
-                    <div className="navlink__Item4">Link3</div>
-                    <div className="navlink__Item5">Login</div>
-                  </>
-                )}
-              </div>
-            )}
+            <BrowserRouter>
+              {showMenu && (
+                <div className="navlinks">
+                  {/* IS THE USER CURRENTLY LOGGED IN?  */}
+                  {isLoggedIn ? (
+                    <>
+                      <Link to='#' className="navlink__Item1">Home</Link>
+                      <Link to='#' className="navlink__Item2">Link1</Link>
+                      <Link to='#' className="navlink__Item3">Link2</Link>
+                      <Link to='#' className="navlink__Item4">Link3</Link>
+                      <Link to='#' className="navlink__Item5">Logout</Link>
+                    </>
+                  ) : (
+                    // IS THE USER CURRENTLY LOGGED OUT? 
+                    <>
+                      <Link to='#' className="navlink__Item1">Home</Link>
+                      <Link to='#' className="navlink__Item2">Link1</Link>
+                      <Link to='#' className="navlink__Item3">Link2</Link>
+                      <Link to='#' className="navlink__Item4">Link3</Link>
+                      <Link to='/login' className="navlink__Item5">Login</Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </BrowserRouter>
 
          </>
       )}
@@ -128,30 +143,31 @@ function Navbar() {
             
 
             {/* Use conditional rendering to show the menu only when menuOpen is true */}
-          
-            {showMenu && (
-              <div className="navlinks">
-                {/* IS THE USER CURRENTLY LOGGED IN?  */}
-                {isLoggedIn ? (
-                  <>
-                    <div className="navlink__Item1">Home</div>
-                    <div className="navlink__Item2">Link1</div>
-                    <div className="navlink__Item3">Link2</div>
-                    <div className="navlink__Item4">Link3</div>
-                    <div className="navlink__Item5">Logout</div>
-                  </>
-                ) : (
-                  // IS THE USER CURRENTLY LOGGED OUT? 
-                  <>
-                    <div className="navlink__Item1">Home</div>
-                    <div className="navlink__Item2">Link1</div>
-                    <div className="navlink__Item3">Link2</div>
-                    <div className="navlink__Item4">Link3</div>
-                    <div className="navlink__Item5">Login</div>
-                  </>
-                )}
-              </div>
-            )}
+            <BrowserRouter>
+              {showMenu && (
+                <div className="navlinks">
+                  {/* IS THE USER CURRENTLY LOGGED IN?  */}
+                  {isLoggedIn ? (
+                    <>
+                      <Link className="navlink__Item1">Home</Link>
+                      <Link className="navlink__Item2">Link1</Link>
+                      <Link className="navlink__Item3">Link2</Link>
+                      <Link className="navlink__Item4">Link3</Link>
+                      <Link className="navlink__Item5">Logout</Link>
+                    </>
+                  ) : (
+                    // IS THE USER CURRENTLY LOGGED OUT? 
+                    <>
+                      <Link className="navlink__Item1">Home</Link>
+                      <Link className="navlink__Item2">Link1</Link>
+                      <Link className="navlink__Item3">Link2</Link>
+                      <Link className="navlink__Item4">Link3</Link>
+                      <Link to='/login' className="navlink__Item5">Login</Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </BrowserRouter>
           </div>
          </>
       )}
