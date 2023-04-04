@@ -3,9 +3,11 @@ import './../CSS/Login.css'
 import Navbar from './Navbar'
 import SignUp from './SignUp'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+  const navigate = useNavigate()
 
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(true)
@@ -24,13 +26,13 @@ function Login() {
   }
 
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // ...
+        navigate('/')
       })
       .catch((error) => {
         const errorCode = error.code;
