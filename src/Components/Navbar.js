@@ -7,7 +7,7 @@ import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 
@@ -20,20 +20,25 @@ function Navbar() {
   // CURRENT MOBILE STATE 
   const [isMobile, setIsMobile] = useState(true)
 
-  // ====================================
-  // CREATE A FUNCTION THAT CHANGES 
-  // THE LOGIN STATE 
-  // ====================================
-
-
-
-
-
 
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
     setShowMenu(!showMenu)
   }
+
+  const handleLogout = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Update isLoggedIn state to false
+        setIsLoggedIn(false);
+        console.log('You have logged out.');
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error(error);
+      });
+  };
 
   // SETS MENU INITIAL DISPLAY BASED ON WINDOW LENGTH 
   useEffect(() => {
@@ -71,6 +76,7 @@ function Navbar() {
       }
     });
   }, []);
+  
 
   return (
     <div className='navbar'>
@@ -107,7 +113,7 @@ function Navbar() {
                       <Link to='#' className="navlink__Item3">Link2</Link>
                       <Link to='#' className="navlink__Item4">Link3</Link>
                       {/* CREATE A LOGOUT FUNCTION FOR THE BELOW LINK  */}
-                      <Link to='#' className="navlink__Item5">Logout</Link> 
+                      <Link to='/' className="navlink__Item5" onClick={handleLogout}>Logout</Link> 
                     </>
                   ) : (
                     // IS THE USER CURRENTLY LOGGED OUT? 
@@ -155,7 +161,7 @@ function Navbar() {
                       <Link className="navlink__Item2">Link1</Link>
                       <Link className="navlink__Item3">Link2</Link>
                       <Link className="navlink__Item4">Link3</Link>
-                      <Link className="navlink__Item5">Logout</Link>
+                      <Link className="navlink__Item5" onClick={handleLogout}>Logout</Link>
                     </>
                   ) : (
                     // IS THE USER CURRENTLY LOGGED OUT? 
