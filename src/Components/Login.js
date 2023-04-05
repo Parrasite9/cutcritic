@@ -4,10 +4,12 @@ import Navbar from './Navbar'
 import SignUp from './SignUp'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Login() {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch
 
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(true)
@@ -20,7 +22,7 @@ function Login() {
     setShowLogin(false)
   }
 
-  const handleLogin = () => {
+  const getLoginForm = () => {
     setShowLogin(true)
     setShowSignUp(false)
   }
@@ -43,7 +45,7 @@ function Login() {
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <div className='login'>
         {!showSignUp ? (
           <>
@@ -62,7 +64,7 @@ function Login() {
         ) : (
           <>
             <SignUp />
-            <button onClick={handleLogin}>Login</button>
+            <button onClick={getLoginForm}>Login</button>
           </>
         )}
       </div>

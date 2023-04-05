@@ -77,3 +77,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - MUI UI (npm i @mui/icons-material)
 - MUI Icons (npm install @mui/material @emotion/react @emotion/styled)
 - Firebase (sudo npm install firebase)
+- Redux Toolkit (npm install @reduxjs/toolkit)
+- Redux Core (npm install redux)
+- React Redux (npm install redux react-redux)
