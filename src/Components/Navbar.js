@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './../CSS/Navbar.css'
-import { createBrowserRouter, Link, RouterProvider, BrowserRouter } from 'react-router-dom';
 
 // MUI ICONS 
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-
-// // COMPONENTS 
-// import Login from './Login'
-
-//   // REACT ROUTER DOM BROWSER ROUTER 
-  // const router = createBrowserRouter([
-//     {
-//       path: '/login',
-//       element: <Login />
-//     }  
-//   ])
+import { Link } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 
@@ -40,13 +30,12 @@ function Navbar() {
 
 
 
-
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
     setShowMenu(!showMenu)
   }
 
-
+  // SETS MENU INITIAL DISPLAY BASED ON WINDOW LENGTH 
   useEffect(() => {
     if (window.innerWidth >= 900) {
       setShowMenu(true)
@@ -70,6 +59,18 @@ function Navbar() {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // CHANGES USER LOGIN STATE BASED ON FIREBASE AUTHENTICATION 
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
 
   return (
     <div className='navbar'>
@@ -105,7 +106,8 @@ function Navbar() {
                       <Link to='#' className="navlink__Item2">Link1</Link>
                       <Link to='#' className="navlink__Item3">Link2</Link>
                       <Link to='#' className="navlink__Item4">Link3</Link>
-                      <Link to='#' className="navlink__Item5">Logout</Link>
+                      {/* CREATE A LOGOUT FUNCTION FOR THE BELOW LINK  */}
+                      <Link to='#' className="navlink__Item5">Logout</Link> 
                     </>
                   ) : (
                     // IS THE USER CURRENTLY LOGGED OUT? 
