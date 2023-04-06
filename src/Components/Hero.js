@@ -1,8 +1,9 @@
 import React from 'react'
+import './../CSS/Hero.css'
 
 function Hero() {
   return (
-    <div>
+    <div className='hero'>
       
     </div>
   )
