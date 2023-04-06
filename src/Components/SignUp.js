@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './../CSS/SignUp.css'
 import { addUser } from '../Firebase/Firebase'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 
 
 function PasswordError({ errorMessage }) {
@@ -26,6 +26,8 @@ function SignUp() {
   const [hasSpecialChar, setHasSpecialChar] = useState(false)
   const [color, setColor] = useState('black')
 
+  // IF USER DOES NOT MEET ALL PASSWORD REQUIREMENTS THEY ARE 
+  // MET WITH AN ERROR MESSAGE
   useEffect(() => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,}$/;
     const isValidPassword = passwordRegex.test(password);
@@ -37,6 +39,8 @@ function SignUp() {
     }
   }, [password]);
 
+  // THIS MAKES SURE THE PASSWORD IS ATLEAST 8 CHARACTERS LONG 
+  // AND CHANGES THE PASSWORD REQUIRMENT TO GREEN 
   useEffect(() => {
     if (password.length >= 8) {
       setHasLength(true)
@@ -45,6 +49,8 @@ function SignUp() {
     }
   }, [password]);
 
+  // THIS MAKES SURE THE PASSWORD HAS AN UPPERCASE 
+  // AND CHANGES THE PASSWORD REQUIRMENT TO GREEN 
   useEffect(() => {
     const uppercaseRegex = /[A-Z]/
     if (uppercaseRegex.test(password)) {
@@ -54,6 +60,8 @@ function SignUp() {
     }
   }, [password]);
 
+  // THIS MAKES SURE THE PASSWORD HAS AN LOWERCASE 
+  // AND CHANGES THE PASSWORD REQUIRMENT TO GREEN 
   useEffect(() => {
     const lowercaseRegex = /[a-z]/
     if (lowercaseRegex.test(password)) {
@@ -63,6 +71,8 @@ function SignUp() {
     }
   }, [password]);
 
+  // THIS MAKES SURE THE PASSWORD HAS A SPECIAL CHARACTER 
+  // AND CHANGES THE PASSWORD REQUIRMENT TO GREEN 
   useEffect(() => {
     const specialCharRegex = /[!@#$%^&*()]/
     if (specialCharRegex.test(password)) {
