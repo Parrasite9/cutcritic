@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './../CSS/SignUp.css'
 import { addUser } from '../Firebase/Firebase'
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import GoogleIcon from '@mui/icons-material/Google';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 
 function PasswordError({ errorMessage }) {
   return (
@@ -161,6 +162,7 @@ function SignUp() {
       });
   }
 
+  // CREATES ACCOUNTS WITH GMAIL 
   function handleGoogleSignIn() {
     const provider = new GoogleAuthProvider()
     const auth = getAuth()
@@ -190,6 +192,42 @@ function SignUp() {
 
   }
 
+// *******************************************************************
+// *******************************************************************
+// ******* GO BACK AND INSTALL FB AUTHENTICATION ON FIREBASE!!!! *****
+// ************* DELETE THIS COMMENT WHEN YOURE DONE!!!! *************
+// *******************************************************************
+// *******************************************************************
+
+  function handleFacebookSignIn() {
+    const provider = new FacebookAuthProvider();
+    const auth = getAuth()
+
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      // The signed-in user info.
+      const user = result.user;
+
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      console.log(`User ${user.uid} signed in with Google`);
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = FacebookAuthProvider.credentialFromError(error);
+      console.log(error.message);
+      // ...
+    });
+
+  }
 
   return (
     <div className='sign__Up'>
@@ -243,6 +281,7 @@ function SignUp() {
       </form>
       <h3>Or Sign in With:</h3>
       <GoogleIcon onClick={handleGoogleSignIn} />
+      <FacebookOutlinedIcon onClick={handleFacebookSignIn} />
     </div>
   )
 }
