@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './../CSS/SignUp.css'
 import { addUser } from '../Firebase/Firebase'
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
-
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import GoogleIcon from '@mui/icons-material/Google';
 
 function PasswordError({ errorMessage }) {
   return (
@@ -83,43 +83,44 @@ function SignUp() {
   }, [password]);
 
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
+  // const handlePasswordChange = (e) => {
+  //   setPassword(e.target.value)
 
-    // CHECKS IF PASSWORD MEETS LENGTH REQUIREMENT 
-    if (e.target.value.length >= 8) {
-      setHasLength(true)
-    } else {
-      setHasLength(false)
-    }
+  //   // CHECKS IF PASSWORD MEETS LENGTH REQUIREMENT 
+  //   if (e.target.value.length >= 8) {
+  //     setHasLength(true)
+  //   } else {
+  //     setHasLength(false)
+  //   }
 
-    // CHECKS IF PASSWORD CONTAINS UPPERCASE LETTER 
-    const uppercaseRegex = /[A-Z]/
-    if (uppercaseRegex.test(e.target.value)) {
-      setHasUppercase(true)
-    } else {
-      setHasUppercase(false)
-    }
+  //   // CHECKS IF PASSWORD CONTAINS UPPERCASE LETTER 
+  //   const uppercaseRegex = /[A-Z]/
+  //   if (uppercaseRegex.test(e.target.value)) {
+  //     setHasUppercase(true)
+  //   } else {
+  //     setHasUppercase(false)
+  //   }
 
-    // CHECKS IF PASSWORD CONTISN LOWERCASE LETTER 
-    const lowercaseRegex = /[a-z]/
-    if (lowercaseRegex.test(e.target.value)) {
-      setHasLowercase(true)
-    } else {
-      setHasLowercase(false)
-    }
+  //   // CHECKS IF PASSWORD CONTISN LOWERCASE LETTER 
+  //   const lowercaseRegex = /[a-z]/
+  //   if (lowercaseRegex.test(e.target.value)) {
+  //     setHasLowercase(true)
+  //   } else {
+  //     setHasLowercase(false)
+  //   }
 
-    // CHECKS IF PASSWORD CONTAINS SPECIAL CHARACTER 
-    const specialCharRegex = /[!@#$%^&*()]/
-    if (specialCharRegex.test(e.target.value)) {
-      setHasSpecialChar(true)
-    } else {
-      setHasSpecialChar(false)
-    }
+  //   // CHECKS IF PASSWORD CONTAINS SPECIAL CHARACTER 
+  //   const specialCharRegex = /[!@#$%^&*()]/
+  //   if (specialCharRegex.test(e.target.value)) {
+  //     setHasSpecialChar(true)
+  //   } else {
+  //     setHasSpecialChar(false)
+  //   }
 
 
-  }
+  // }
 
+  // ONLY HANDLES EMAIL AND PASSWORD ACCOUNTS 
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -158,6 +159,35 @@ function SignUp() {
         // ..
         console.error(error.message);
       });
+  }
+
+  function handleGoogleSignIn() {
+    const provider = new GoogleAuthProvider()
+    const auth = getAuth()
+
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(`User ${user.uid} signed in with Google`);
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+      console.log(error.message);
+    });
+
+
   }
 
 
@@ -211,6 +241,8 @@ function SignUp() {
         </div>
         <button type='submit'>Sign Up</button>
       </form>
+      <h3>Or Sign in With:</h3>
+      <GoogleIcon onClick={handleGoogleSignIn} />
     </div>
   )
 }
