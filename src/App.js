@@ -5,6 +5,7 @@ import './App.css'
 import SignUp from './Components/SignUp'
 import Login from './Components/Login'
 import Home from './Components/Home'
+import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -34,6 +35,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/booking' element={<Booking />}
 
           <Route path='/login' element={<Login />}  />
 
