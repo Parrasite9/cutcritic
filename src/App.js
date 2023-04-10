@@ -8,6 +8,7 @@ import Home from './Components/Home'
 import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Dashboard from './Components/Dashboard/Dashboard'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/booking' element={<Booking />} />
+          <Route path='/dashboard' element={<Dashboard />} />
 
           <Route path='/login' element={<Login />}  />
 
