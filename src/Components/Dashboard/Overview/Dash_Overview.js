@@ -6,7 +6,7 @@ import Dash_Sidebar from './Dash_Sidebar'
 import Overview_Calender from './Overview/Overview_Calender'
 
 
-function Dashboard() {
+function Dash_Overview() {
   
   const [largeView, setLargeView] = useState(false)
 
@@ -47,12 +47,7 @@ function Dashboard() {
       {largeView && (
         <>
           <div className="overview__Grid">
-            <div className="grid__Item1">
-              <Overview_Calender />
-            </div>
-            <div className="grid__Item2"></div>
-            <div className="grid__Item3"></div>
-            <div className="grid__Item4"></div>
+            <Overview_Calender />
           </div>
         </>
       )}
@@ -60,4 +55,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default Dash_Overview
