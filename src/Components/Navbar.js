@@ -11,7 +11,7 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 
-function Navbar() {
+function Navbar({userId}) {
 
   // Use state hook to track whether the menu is open or closed
   const [showMenu, setShowMenu] = useState(false) 
@@ -160,7 +160,7 @@ function Navbar() {
                       <Link to='#' className="navlink__Item1">Home</Link>
                       <Link to='#' className="navlink__Item2">Link1</Link>
                       <Link to='#' className="navlink__Item3">Link2</Link>
-                      <Link to='/dashboard' className="navlink__Item4">My Dashboard</Link>
+                      <Link to={`/user/${userId}/dashboard`} className="navlink__Item4">My Dashboard</Link>
                       <Link to='#' className="navlink__Item5" onClick={handleLogout}>Logout</Link>
                     </>
                   ) : (

@@ -2,10 +2,10 @@ import React from 'react'
 import './../CSS/Hero.css'
 import Navbar from './Navbar'
 
-function Home() {
+function Home({userId}) {
   return (
     <div className='home'>
-      <Navbar />
+      <Navbar userId={userId} />
     </div>
   )
 }

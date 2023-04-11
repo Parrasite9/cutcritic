@@ -3,10 +3,11 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../../CSS/Dashboard/Dashboard.css'
 import Dash_Sidebar from './Dash_Sidebar'
+import Greeting from './Greeting'
 import Overview_Calender from './Overview/Overview_Calender'
 
 
-function Dashboard() {
+function Dashboard({userId}) {
   
   const [largeView, setLargeView] = useState(false)
 
@@ -47,13 +48,34 @@ function Dashboard() {
       {largeView && (
         <>
           <div className="overview__Grid">
-            <div className="grid__Item1">
-              <Overview_Calender />
+            <Greeting />
+            <div className="overview__Grid1">
+              <div className="grid__Item1">
+                <Overview_Calender />
+              </div>
+              <div className="grid__Item2">
+                Todays Appointments
+              </div>
             </div>
-            <div className="grid__Item2"></div>
-            <div className="grid__Item3"></div>
-            <div className="grid__Item4"></div>
+
+            <div className="overview__Grid2">
+              <div className="grid__Item3">
+                Project Directory
+              </div>
+              <div className="grid__Item4">
+                New Comments
+              </div>
+              <div className="grid__Item5">
+                Top Clients
+              </div>
+
+            </div>
           </div>
+
+
+
+
+
         </>
       )}
     </>

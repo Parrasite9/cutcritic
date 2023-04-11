@@ -6,12 +6,18 @@ import SignUp from './Components/SignUp'
 import Login from './Components/Login'
 import Home from './Components/Home'
 import Booking from './Components/Booking'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Dashboard'
 
 
 function App() {
+
+  const [userId, setUserId] = useState(null)
+
+  // const { id } = useParams()
+
+
 
   useEffect(() => {
 
@@ -21,15 +27,17 @@ function App() {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
+        setUserId(uid)
         // ...
         console.log('user is signed in');
       } else {
         // User is signed out
         // ...
-        console.log('use is signed out');
+        setUserId(null)
+        console.log('user is signed out');
       }
     });
-  })
+  }, [])
 
   return (
     
@@ -37,7 +45,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/booking' element={<Booking />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/user/:id/dashboard' element={<Dashboard userId={userId} />} />
 
           <Route path='/login' element={<Login />}  />
 
