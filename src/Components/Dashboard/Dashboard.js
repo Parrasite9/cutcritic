@@ -5,6 +5,7 @@ import '../../CSS/Dashboard/Dashboard.css'
 import Dash_Sidebar from './Dash_Sidebar'
 import Greeting from './Greeting'
 import Overview_Calender from './Overview/Overview_Calender'
+import Overview__TopClients from './Overview/Overview_TopClients'
 
 
 function Dashboard({userId}) {
@@ -53,20 +54,27 @@ function Dashboard({userId}) {
               <div className="grid__Item1">
                 <Overview_Calender />
               </div>
+
               <div className="grid__Item2">
-                Todays Appointments
+                <h4>Todays Appointments</h4>
+                <div>
+                  <p>Lorem ipsum dolor sit amet.</p>
+                  <p>Lorem ipsum dolor sit amet.</p>
+                  <p>Lorem ipsum dolor sit amet.</p>
+                </div>
               </div>
             </div>
 
             <div className="overview__Grid2">
               <div className="grid__Item3">
-                Project Directory
+                <h4>Project Directory</h4>
               </div>
               <div className="grid__Item4">
-                New Comments
+                <h4>New Comments</h4>
               </div>
               <div className="grid__Item5">
-                Top Clients
+                <h4>Top Clients</h4>
+                <Overview__TopClients />
               </div>
 
             </div>
