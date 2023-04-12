@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../Firebase/Firestore';
+import { auth } from '../../../Firebase/Firestore';
 
 
 function Greeting({userId}) {

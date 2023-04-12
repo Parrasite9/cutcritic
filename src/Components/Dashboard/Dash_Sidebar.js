@@ -35,7 +35,7 @@ function Dash_Sidebar() {
           <div className="dashboard__Sidebar">
           <div className="top__Nav">
             <Link to='#'>Overview</Link>
-            <Link to='#'>Bookings</Link>
+            <Link to='/user/:id/dashboard/bookings'>Bookings</Link>
             <Link to='#'>Messages</Link>
             <Link to='#'>Reports</Link>
             <Link to='#'>Add On</Link>
