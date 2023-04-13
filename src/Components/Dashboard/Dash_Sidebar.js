@@ -40,32 +40,33 @@ function Dash_Sidebar() {
       {/* ONLY DISPLAYS SIDEBAR WHEN THIS IS TRUE  */}
       {showSidebar && (
           <div className="dashboard__Sidebar">
-          <div className="top__Nav">
-            <div className="logo__And__Link">
-              <HomeOutlinedIcon />
-              <Link to='#'>Overview</Link>
-            </div>
-            <div className="logo__And__Link">
-              <CalendarMonthOutlinedIcon />
-              <Link to='/user/:id/dashboard/bookings'>Bookings</Link>
+            <div className="top__Nav">
+              <div className="logo__And__Link">
+                <HomeOutlinedIcon />
+                <Link to='#'>Overview</Link>
+              </div>
+              <div className="logo__And__Link">
+                <CalendarMonthOutlinedIcon />
+                <Link to='/user/:id/dashboard/bookings'>Bookings</Link>
+
+              </div>
+              <div className="logo__And__Link">
+                <MessageOutlinedIcon />
+                <Link to='#'>Messages</Link>
+
+              </div>
+              <div className="logo__And__Link">
+                <AssessmentOutlinedIcon />
+                <Link to='#'>Reports</Link>
+              </div>
+              <div className="logo__And__Link">
+                <Link to='#'>Add On</Link>
+
+              </div>
+
 
             </div>
-            <div className="logo__And__Link">
-              <MessageOutlinedIcon />
-              <Link to='#'>Messages</Link>
-
-            </div>
-            <div className="logo__And__Link">
-              <AssessmentOutlinedIcon />
-              <Link to='#'>Reports</Link>
-            </div>
-            <div className="logo__And__Link">
-              <Link to='#'>Add On</Link>
-
-            </div>
-
-
-          </div>
+            
             <div className="bottom__Nav">
               <div className="logo__And__Link">
                 <SettingsOutlinedIcon />
