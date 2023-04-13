@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import '../../../CSS/Dashboard/Dashboard.css'
+import '../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../Dash_Sidebar'
 import Greeting from './Greeting'
 import Overview_Calender from '../Overview/Overview_Calender'
