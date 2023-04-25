@@ -1,0 +1,24 @@
+.hero {
+    padding: 5%;
+}
+
+.hero__text {
+    text-align: center;
+}
+
+.btn__container {
+    text-align: center;
+}
+
+.btn__container > button {
+    width: 40%;
+    padding: 3% 2%;
+    border-radius: 5px;
+}
+
+.hero > img {
+    display: block;
+    margin: auto;
+    width: 75%;
+    height: auto;
+}
