@@ -78,7 +78,7 @@
         font-size: 1.10em;
     }
   
-    img {
+    .hero > img {
       grid-column: 3 / span 2; /* The image spans 2 columns, starting from the third column */
       grid-row: 1 / span 2; /* The image spans 2 rows, starting from the first row */
       justify-self: center;

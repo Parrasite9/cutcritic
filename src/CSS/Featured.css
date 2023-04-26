@@ -1,0 +1,29 @@
+.featured {
+    padding: 5%;
+}
+
+.featured > h2 {
+    font-size: 2em;
+    text-align: center;
+}
+
+.featured__location {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5%;
+    justify-content: center; /* center horizontally */
+    align-items: center; /* center vertically */
+}
+
+.featured__location > img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+@media (min-width: 1000px) {
+    .featured__location {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
