@@ -86,5 +86,43 @@
   }
   
   @media (min-width: 1000px) {
-    
+    .hero > img {
+        width: 80%;
+    }
+    .hero__text > h1 {
+        font-size: 2.75em;
+    }
+
+    .hero__text > p {
+        font-size: 1.5em;
+    }
+
+    .btn__container > button {
+        font-size: 1.20em;
+    }
   }
+
+  @media (min-width: 1250px) {
+    .hero > img {
+        width: 75%;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .hero > img {
+        width: 80%;
+    }
+    .hero__text > h1 {
+        font-size: 3.25em;
+    }
+
+    .hero__text > p {
+        font-size: 2em;
+        margin: 15% 0;
+    }
+
+    .btn__container > button {
+        font-size: 1.40em;
+    }
+  }
+  
