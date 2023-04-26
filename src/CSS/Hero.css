@@ -12,8 +12,9 @@
 
 .btn__container > button {
     width: 40%;
-    padding: 3% 2%;
+    padding: 2.25% 1%;
     border-radius: 5px;
+    font-size: 1em;
 }
 
 .hero > img {
@@ -22,3 +23,45 @@
     width: 75%;
     height: auto;
 }
+
+@media (min-width: 550px) {
+    .btn__container > button {
+        font-size: 1em;
+        width: 35%;
+        padding: 2.25% 1%;
+    }
+}
+
+  @media (min-width: 750px) {
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, auto);
+      grid-gap: 20px;
+    }
+  
+    .hero__text {
+      grid-column: 1 / span 2; /* The text spans 2 columns, starting from the first column */
+      grid-row: 1 / 2;
+      text-align: left;
+    }
+  
+    .btn__container {
+      grid-column: 1 / span 2; /* The button container spans 2 columns, starting from the first column */
+      grid-row: 2 / 3;
+      text-align: left;
+    }
+
+    .btn__container > button {
+        display: inline-block;
+        width: 50%;
+    }
+  
+    img {
+      grid-column: 3 / span 2; /* The image spans 2 columns, starting from the third column */
+      grid-row: 1 / span 2; /* The image spans 2 rows, starting from the first row */
+      justify-self: center;
+    }
+  }
+  
+  
