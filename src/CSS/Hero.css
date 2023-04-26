@@ -39,11 +39,31 @@
       grid-template-rows: repeat(2, auto);
       grid-gap: 20px;
     }
+
+    .hero > img {
+        width: 95%;
+    }
   
     .hero__text {
       grid-column: 1 / span 2; /* The text spans 2 columns, starting from the first column */
       grid-row: 1 / 2;
       text-align: left;
+    }
+
+    /* .hero__text > h1 {
+        font-size: 40px;
+    }
+
+    .hero__text > p {
+        font-size: 20px;
+    } */
+
+    .hero__text > h1 {
+        font-size: 2.5em;
+    }
+
+    .hero__text > p {
+        font-size: 1.25em;
     }
   
     .btn__container {
@@ -55,6 +75,7 @@
     .btn__container > button {
         display: inline-block;
         width: 50%;
+        font-size: 1.10em;
     }
   
     img {
@@ -64,4 +85,6 @@
     }
   }
   
-  
+  @media (min-width: 1000px) {
+    
+  }
