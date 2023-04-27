@@ -1,0 +1,34 @@
+.ratings {
+    padding: 0 5%;
+}
+
+.ratings__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.ratings__grid1 > h1, 
+.ratings__grid2 > h1 {
+    font-size: 2.25em;
+}
+
+.trusted__by {
+    grid-column: 1 / span 2;
+}
+
+@media (min-width: 1000px) {
+  .ratings__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .trusted__by {
+    grid-column: 3 / 3;
+  }
+}

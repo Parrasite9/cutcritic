@@ -3,6 +3,7 @@ import './../CSS/Hero.css'
 import Navbar from './Navbar'
 import Hero from './Hero'
 import Featured from './Featured'
+import Ratings from './Ratings'
 
 
 function Home({userId}) {
@@ -11,6 +12,7 @@ function Home({userId}) {
       <Navbar userId={userId} />
       <Hero />
       <Featured />
+      <Ratings />
 
       
     </div>
