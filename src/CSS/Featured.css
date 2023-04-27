@@ -26,4 +26,12 @@
     .featured__location {
         grid-template-columns: repeat(4, 1fr);
     }
+
+    .trusted__by {
+        text-align: left;
+    }
+
+    .trusted__by > p {
+        font-size: 1em;
+    }
 }

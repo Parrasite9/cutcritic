@@ -12,7 +12,13 @@
 
 .ratings__grid1 > h1, 
 .ratings__grid2 > h1 {
-    font-size: 2.25em;
+    font-size: 3.25em;
+    font-weight: 700;
+}
+
+.ratings__grid1 > h5, 
+.ratings__grid2 > h5 {
+    font-size: 1em;
 }
 
 .trusted__by {
@@ -31,4 +37,27 @@
   .trusted__by {
     grid-column: 3 / 3;
   }
+}
+
+@media (min-width: 1250px) {
+    .trusted__by > h2 {
+        font-size: 2em;
+    }
+
+    .trusted__by > h3 {
+        font-size: 1.15em;
+    }
+
+    .trusted__by > p {
+        font-size: 1.05em;
+    }
+
+    .ratings__container > .trusted__by {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .ratings__container > .trusted__by > h2 {
+        margin: 6.5% 0 0 0;
+    }
 }
