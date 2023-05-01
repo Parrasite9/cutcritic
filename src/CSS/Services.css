@@ -5,7 +5,7 @@
 .services__header {
     display: grid;
     grid-template-columns: repeat(1, 1fr 2fr);
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     justify-items: center; /* center horizontally */
     align-items: center; /* center vertically */
 }
@@ -54,6 +54,36 @@
     .services__offer3 {
         margin-bottom: 2%;
     }
+}
 
+@media (min-width: 1050px) {
+    .services__offer {
+        grid-template-columns: repeat(1, 1fr 1fr 1fr);
+        grid-gap: 2.5%;
+    }
 
+    .services__header > button {
+        width: 35%;
+    }
+}
+
+@media (min-width: 1250px) {
+    .services__header > h3 {
+        font-size: 2.5em;
+        margin: 2.5%;
+    }
+
+    .services__header > button {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1650px) {
+    .services__header > h3 {
+        font-size: 3em;
+    }
+
+    .services__header > button {
+        width: 20%;
+    }
 }
