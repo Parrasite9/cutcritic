@@ -80,3 +80,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - Redux Toolkit (npm install @reduxjs/toolkit)
 - Redux Core (npm install redux)
 - React Redux (npm install redux react-redux)
+- MUI (npm install @mui/material @emotion/react @emotion/styled)
+- MUI (npm install @mui/x-date-pickers)
+- MUI (npm install dayjs)

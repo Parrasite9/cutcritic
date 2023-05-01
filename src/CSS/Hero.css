@@ -1,0 +1,128 @@
+.hero {
+    padding: 5%;
+}
+
+.hero__text {
+    text-align: center;
+}
+
+.btn__container {
+    text-align: center;
+}
+
+.btn__container > button {
+    width: 40%;
+    padding: 2.25% 1%;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.hero > img {
+    display: block;
+    margin: auto;
+    width: 75%;
+    height: auto;
+}
+
+@media (min-width: 550px) {
+    .btn__container > button {
+        font-size: 1em;
+        width: 35%;
+        padding: 2.25% 1%;
+    }
+}
+
+  @media (min-width: 750px) {
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, auto);
+      grid-gap: 20px;
+    }
+
+    .hero > img {
+        width: 95%;
+    }
+  
+    .hero__text {
+      grid-column: 1 / span 2; /* The text spans 2 columns, starting from the first column */
+      grid-row: 1 / 2;
+      text-align: left;
+    }
+
+    /* .hero__text > h1 {
+        font-size: 40px;
+    }
+
+    .hero__text > p {
+        font-size: 20px;
+    } */
+
+    .hero__text > h1 {
+        font-size: 2.5em;
+    }
+
+    .hero__text > p {
+        font-size: 1.25em;
+    }
+  
+    .btn__container {
+      grid-column: 1 / span 2; /* The button container spans 2 columns, starting from the first column */
+      grid-row: 2 / 3;
+      text-align: left;
+    }
+
+    .btn__container > button {
+        display: inline-block;
+        width: 50%;
+        font-size: 1.10em;
+    }
+  
+    .hero > img {
+      grid-column: 3 / span 2; /* The image spans 2 columns, starting from the third column */
+      grid-row: 1 / span 2; /* The image spans 2 rows, starting from the first row */
+      justify-self: center;
+    }
+  }
+  
+  @media (min-width: 1000px) {
+    .hero > img {
+        width: 80%;
+    }
+    .hero__text > h1 {
+        font-size: 2.75em;
+    }
+
+    .hero__text > p {
+        font-size: 1.5em;
+    }
+
+    .btn__container > button {
+        font-size: 1.20em;
+    }
+  }
+
+  @media (min-width: 1250px) {
+    .hero > img {
+        width: 75%;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .hero > img {
+        width: 80%;
+    }
+    .hero__text > h1 {
+        font-size: 3.25em;
+    }
+
+    .hero__text > p {
+        font-size: 2em;
+        margin: 15% 0;
+    }
+
+    .btn__container > button {
+        font-size: 1.40em;
+    }
+  }
+  

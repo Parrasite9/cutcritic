@@ -1,0 +1,40 @@
+.dashboard__Sidebar {
+    height: 100%;
+    width: 10%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    justify-content: space-evenly;
+    
+}
+
+.top__Nav {
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 95%; */
+    padding-top: 50%;
+}
+
+.bottom__Nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo__And__Link {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15%;
+
+}
+
+.logo__And__Link > a {
+    text-decoration: none;
+    font-size: .9em; /* CHANGE THIS TO MAKE IT LOOK GOOD.*/
+    padding-left: 5%;
+}

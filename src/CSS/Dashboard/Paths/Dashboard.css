@@ -1,0 +1,21 @@
+.overview__Grid {
+    margin-left: 12.5%;
+}
+
+.overview__Grid1 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr 2fr);
+}
+
+.overview__Grid2 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr 1fr 1fr);
+}
+
+.grid__Item2 > div {
+    padding-left: 5%;
+}
+
+.grid__Item5 > h4 {
+    grid-column: 1 / -1;
+}
