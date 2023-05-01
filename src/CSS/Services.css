@@ -1,0 +1,31 @@
+.services {
+    padding: 0 5%;
+}
+
+.services__header {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr 2fr);
+    margin-bottom: 10%;
+    justify-items: center; /* center horizontally */
+    align-items: center; /* center vertically */
+}
+
+.services__header > button {
+    width: 70%;
+    height: 75%;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.services__offer1,
+.services__offer2,
+.services__offer3 {
+    margin-bottom: 10%;
+}
+
+.services__offer1 > img,
+.services__offer2 > img,
+.services__offer3 > img {
+    width: 100%;
+    height: auto;
+}
