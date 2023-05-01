@@ -29,3 +29,31 @@
     width: 100%;
     height: auto;
 }
+
+@media (min-width: 750px) {
+    .services__offer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5%;
+    }
+
+    .services__header > h3 {
+        font-size: 2em;
+        padding: 0;
+        margin: 5%;
+    }
+
+    .services__header > button {
+        width: 50%;
+        font-size: 1em;
+        justify-self: end;
+    }
+
+    .services__offer1,
+    .services__offer2,
+    .services__offer3 {
+        margin-bottom: 2%;
+    }
+
+
+}
