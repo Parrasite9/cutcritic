@@ -51,3 +51,45 @@
 .app__benefits > h3 {
     font-size: 1.5em;
 }
+
+@media (min-width: 750px) {
+    .benefits {
+        display: grid;
+        grid-gap: 2%;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+          "header header header"
+          "features benefits image";
+    }
+
+    .hr__text {
+        grid-area: header;
+    }
+    
+    .app__features {
+        grid-area: features;
+    }
+    
+    .app__benefits {
+        grid-area: benefits;
+    }
+    
+    .benefits > img {
+        grid-area: image;
+        width: 100%;
+        height: auto;
+    } 
+
+    .fiat > p,
+    .biat > p {
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 1250px) {
+    .benefits > img {
+        width: auto;
+        height: 90%;
+    }
+}
