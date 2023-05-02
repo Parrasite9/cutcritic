@@ -25,3 +25,29 @@
 
 /* ABOVE IS THE HORIZONTAL RULE & TEXT  */
 
+.fiat, .biat {
+    display: flex;
+    align-items: center;
+}
+
+.fiat > p,
+.biat > p {
+    padding-left: 2%;
+}
+
+.benefits > img {
+    width: 100%;
+}
+
+.app__features {
+    margin-bottom: 10%;
+}
+
+.app__benefits {
+    margin-bottom: 15%;
+}
+
+.app__features > h3,
+.app__benefits > h3 {
+    font-size: 1.5em;
+}
