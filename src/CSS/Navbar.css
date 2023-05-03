@@ -25,6 +25,11 @@
     letter-spacing: .1em;
 }
 
+.navlinks > a {
+    text-decoration: none;
+    margin-left: 1.5%;
+}
+
 .navbar__Container > input {
     width: 98%;
     height: 2.5em;
