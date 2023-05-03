@@ -1,0 +1,21 @@
+.testimony {
+    padding: 0 5%;
+}
+
+.testimony__text__and__button {
+    padding-bottom: 5%;
+    display: grid;
+
+}
+
+.testimony__text__and__button > button {
+    width: 60%;
+    justify-self: center;
+    font-size: 1em;
+    padding: 3% 0;
+    border-radius: 4px;
+}
+
+.testimony > img {
+    width: 100%;
+}

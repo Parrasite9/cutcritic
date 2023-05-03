@@ -58,7 +58,7 @@ function Benefits() {
             </div>
         </div>
 
-        <img src="/images/benefits/benefits.png" alt="" />
+        <img src="/images/home/benefits/benefits.png" alt="" />
       
     </div>
   )

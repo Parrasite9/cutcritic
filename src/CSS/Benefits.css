@@ -1,5 +1,6 @@
 .benefits {
     padding: 0 5%;
+    padding-bottom: 10%;
 }
 
 .hr__text {
@@ -80,6 +81,11 @@
         width: 100%;
         height: auto;
     } 
+
+    .hr__text > span {
+        font-size: 1.25em;
+        padding: 0 2%;
+    }
 
     .fiat > p,
     .biat > p {

@@ -6,6 +6,7 @@ import Featured from './Featured'
 import Ratings from './Ratings'
 import Services from './Services'
 import Benefits from './Benefits'
+import Testimony from './Testimony'
 
 
 function Home({userId}) {
@@ -17,6 +18,7 @@ function Home({userId}) {
       <Ratings />
       <Services />
       <Benefits />
+      <Testimony />
 
       
     </div>
