@@ -1,0 +1,101 @@
+.benefits {
+    padding: 0 5%;
+    padding-bottom: 10%;
+}
+
+.hr__text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.hr__text::before,
+.hr__text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+}
+
+.hr__text:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.hr__text:not(:empty)::after {
+    margin-left: .25em;
+}
+
+/* ABOVE IS THE HORIZONTAL RULE & TEXT  */
+
+.fiat, .biat {
+    display: flex;
+    align-items: center;
+}
+
+.fiat > p,
+.biat > p {
+    padding-left: 2%;
+}
+
+.benefits > img {
+    width: 100%;
+}
+
+.app__features {
+    margin-bottom: 10%;
+}
+
+.app__benefits {
+    margin-bottom: 15%;
+}
+
+.app__features > h3,
+.app__benefits > h3 {
+    font-size: 1.5em;
+}
+
+@media (min-width: 750px) {
+    .benefits {
+        display: grid;
+        grid-gap: 2%;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+          "header header header"
+          "features benefits image";
+    }
+
+    .hr__text {
+        grid-area: header;
+    }
+    
+    .app__features {
+        grid-area: features;
+    }
+    
+    .app__benefits {
+        grid-area: benefits;
+    }
+    
+    .benefits > img {
+        grid-area: image;
+        width: 100%;
+        height: auto;
+    } 
+
+    .hr__text > span {
+        font-size: 1.25em;
+        padding: 0 2%;
+    }
+
+    .fiat > p,
+    .biat > p {
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 1250px) {
+    .benefits > img {
+        width: auto;
+        height: 90%;
+    }
+}
