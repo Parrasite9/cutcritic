@@ -1,5 +1,5 @@
 .navbar {
-    background-color: aqua;
+    background-color: #005ca9;
 }
 
 .navbar__Container {
@@ -10,7 +10,6 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr 2fr);
     align-items: center;
-    /* justify-content: space-between; */
 }
 
 .logo__Menu__Container > h1 {
@@ -26,6 +25,7 @@
 }
 
 .navlinks > a {
+    color: #f7f7f7;
     text-decoration: none;
     margin-left: 1.5%;
 }

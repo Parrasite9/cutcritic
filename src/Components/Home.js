@@ -13,12 +13,15 @@ function Home({userId}) {
   return (
     <div className='home'>
       <Navbar userId={userId} />
-      <Hero />
-      <Featured />
-      <Ratings />
-      <Services />
-      <Benefits />
-      <Testimony />
+
+      <div className="home__elements">
+        <Hero />
+        <Featured />
+        <Ratings />
+        <Services />
+        <Benefits />
+        <Testimony />
+      </div>
 
       
     </div>

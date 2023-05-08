@@ -114,8 +114,8 @@ function Login() {
               </div>
 
                 {errorMessage && <p>{errorMessage}</p>}
-                <button onClick={handleSignIn}>Sign In</button>
-                <button>Forgot Password</button>
+                <button className='signIn__button' onClick={handleSignIn}>Sign In</button>
+                <button className='forgotPass__button'>Forgot Password</button>
 
                 <div className="create__account">
                   <p>Don't have an account?</p>

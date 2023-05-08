@@ -51,11 +51,16 @@
     padding: 7px 0;
     border-radius: 20px;
     border: 2px solid;
-    border-color: #e6c462;
+    border-color: #fefefe;
     cursor: pointer;
     transition: .3s;
     margin-bottom: 1%;
 }
+
+.signIn__button {
+    background-color: #e6c462;
+}
+
 
 .create__account {
     display: flex;
