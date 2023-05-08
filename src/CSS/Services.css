@@ -9,12 +9,15 @@
     margin-bottom: 5%;
     justify-items: center; /* center horizontally */
     align-items: center; /* center vertically */
+    color: #0072c6;
 }
 
 .services__header > button {
+    background-color: #68c1a9;
     width: 70%;
     height: 75%;
     border-radius: 4px;
+    border-color: #a56f3f;
     font-size: 1em;
 }
 
@@ -29,6 +32,24 @@
 .services__offer3 > img {
     width: 100%;
     height: auto;
+}
+
+.services__offer1 > h3,
+.services__offer2 > h3,
+.services__offer3 > h3 {
+    color: #0072c6;
+}
+
+.services__offer1 > p,
+.services__offer2 > p,
+.services__offer3 > p {
+    color: #333;
+}
+
+.services__offer1 > a,
+.services__offer2 > a,
+.services__offer3 > a {
+    color: #a56f3f;
 }
 
 @media (min-width: 750px) {
