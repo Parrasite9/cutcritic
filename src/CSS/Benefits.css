@@ -7,13 +7,14 @@
     display: flex;
     align-items: center;
     text-align: center;
+    color: #0072c6;
 }
 
 .hr__text::before,
 .hr__text::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #a56f3f;
 }
 
 .hr__text:not(:empty)::before {
@@ -51,6 +52,12 @@
 .app__features > h3,
 .app__benefits > h3 {
     font-size: 1.5em;
+    color: #0072c6;
+}
+
+.app__features > p,
+.app__benefits > p {
+    color: #333;
 }
 
 @media (min-width: 750px) {

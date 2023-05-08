@@ -1,16 +1,15 @@
 .navbar {
-    background-color: aqua;
+    background-color: #005ca9;
 }
 
 .navbar__Container {
-    padding: 5%;
+    padding: 1% 5% 2.5% 5%;
 }
 
 .logo__Menu__Container {
     display: grid;
     grid-template-columns: repeat(1, 1fr 2fr);
     align-items: center;
-    /* justify-content: space-between; */
 }
 
 .logo__Menu__Container > h1 {
@@ -23,6 +22,12 @@
 
 .navlinks {
     letter-spacing: .1em;
+}
+
+.navlinks > a {
+    color: #f7f7f7;
+    text-decoration: none;
+    margin-left: 1.5%;
 }
 
 .navbar__Container > input {

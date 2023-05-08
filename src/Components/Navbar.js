@@ -109,8 +109,8 @@ function Navbar({userId}) {
                   {isLoggedIn ? (
                     <>
                       <Link to='#' className="navlink__Item1">Home</Link>
-                      <Link to='#' className="navlink__Item2">Link1</Link>
-                      <Link to='#' className="navlink__Item3">Link2</Link>
+                      <Link to='#' className="navlink__Item2">Services</Link>
+                      <Link to='#' className="navlink__Item3">About</Link>
                       <Link to='#' className="navlink__Item4">My Dashboard</Link>
                       {/* CREATE A LOGOUT FUNCTION FOR THE BELOW LINK  */}
                       <Link to='/' className="navlink__Item5" onClick={handleLogout}>Logout</Link> 
@@ -119,7 +119,7 @@ function Navbar({userId}) {
                     // IS THE USER CURRENTLY LOGGED OUT? 
                     <>
                       <Link to='#' className="navlink__Item1">Home</Link>
-                      <Link to='#' className="navlink__Item2">Link1</Link>
+                      <Link to='#' className="navlink__Item2">Services</Link>
                       <Link to='#' className="navlink__Item3">Link2</Link>
                       <Link to='#' className="navlink__Item4">Link3</Link>
                       <Link to='/login' className="navlink__Item5">Login</Link>
@@ -158,8 +158,8 @@ function Navbar({userId}) {
                   {isLoggedIn ? (
                     <>
                       <Link to='#' className="navlink__Item1">Home</Link>
-                      <Link to='#' className="navlink__Item2">Link1</Link>
-                      <Link to='#' className="navlink__Item3">Link2</Link>
+                      <Link to='#' className="navlink__Item2">Services</Link>
+                      <Link to='#' className="navlink__Item3">About</Link>
                       <Link to={`/user/:id/dashboard`} className="navlink__Item4">My Dashboard</Link>
                       <Link to='#' className="navlink__Item5" onClick={handleLogout}>Logout</Link>
                     </>
@@ -167,9 +167,9 @@ function Navbar({userId}) {
                     // IS THE USER CURRENTLY LOGGED OUT? 
                     <>
                       <Link to='#' className="navlink__Item1">Home</Link>
-                      <Link to='#' className="navlink__Item2">Link1</Link>
-                      <Link to='#' className="navlink__Item3">Link2</Link>
-                      <Link to='#' className="navlink__Item4">Link3</Link>
+                      <Link to='#' className="navlink__Item2">Services</Link>
+                      <Link to='#' className="navlink__Item3">About</Link>
+                      {/* <Link to='#' className="navlink__Item4">Link3</Link> */}
                       <Link to='/login' className="navlink__Item5">Login</Link>
                     </>
                   )}
