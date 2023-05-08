@@ -24,6 +24,18 @@
     grid-column: 1 / span 2;
 }
 
+.trusted__by > h2 {
+    color: #0072c6;
+}
+
+.trusted__by > h3 {
+    color: #a56f3f;
+}
+
+.trusted__by > p {
+    color: #333;
+}
+
 @media (min-width: 1000px) {
   .ratings__container {
     display: grid;
