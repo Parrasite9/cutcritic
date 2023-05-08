@@ -7,7 +7,17 @@
     display: grid;
 }
 
+.testimony__text__and__button > h3 {
+    color: #0072c6;
+}
+
+.testimony__text__and__button > p {
+    color: #333;
+}
+
 .testimony__text__and__button > button {
+    background-color: #68c1a9;
+    border-color: #a56f3f;
     width: 60%;
     justify-self: center;
     font-size: 1em;
