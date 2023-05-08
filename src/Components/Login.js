@@ -97,15 +97,20 @@ function Login() {
             <div className="login__container">
               <div className="input__container">
               <p class="login">Log in to Cut Critic</p>
+                  <input 
+                    type="text" 
+                    placeholder='Email' 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    required />
 
-                {/* <label>
-                  User Name */}
-                  <input type="text" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-                {/* </label> */}
-                {/* <label> */}
-                  {/* Password */}
-                  <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
-                {/* </label> */}
+                  <input 
+                    type="password" 
+                    placeholder='Password' 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    onKeyDown={(e) => {if (e.key === 'Enter') {handleSignIn()}}} 
+                    required />
               </div>
 
                 {errorMessage && <p>{errorMessage}</p>}
@@ -123,7 +128,7 @@ function Login() {
 
 
 
-            <label>
+            {/* <label>
                 User Name
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </label>
@@ -133,7 +138,7 @@ function Login() {
               </label>
               {errorMessage && <p>{errorMessage}</p>}
               <button onClick={handleSignIn}>Sign In</button>
-              <button onClick={handleRegister}>Sign Up</button>
+              <button onClick={handleRegister}>Sign Up</button> */}
           </>
         ) : (
           <>
