@@ -26,10 +26,10 @@
     width: 100%;
   }
   
-  .input__container > p {
+  /* .input__container > p {
     font-size: 1.2em;
     font-weight: 700;
-  }
+  } */
   
   .input__container > input {
     height: 40px;

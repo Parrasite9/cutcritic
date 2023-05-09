@@ -142,8 +142,10 @@ function Login() {
           </>
         ) : (
           <>
+          <div className="signup__form">
             <SignUp />
             <button onClick={getLoginForm}>Login</button>
+          </div>
           </>
         )}
       </div>
