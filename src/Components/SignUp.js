@@ -84,43 +84,6 @@ function SignUp() {
   }, [password]);
 
 
-  // const handlePasswordChange = (e) => {
-  //   setPassword(e.target.value)
-
-  //   // CHECKS IF PASSWORD MEETS LENGTH REQUIREMENT 
-  //   if (e.target.value.length >= 8) {
-  //     setHasLength(true)
-  //   } else {
-  //     setHasLength(false)
-  //   }
-
-  //   // CHECKS IF PASSWORD CONTAINS UPPERCASE LETTER 
-  //   const uppercaseRegex = /[A-Z]/
-  //   if (uppercaseRegex.test(e.target.value)) {
-  //     setHasUppercase(true)
-  //   } else {
-  //     setHasUppercase(false)
-  //   }
-
-  //   // CHECKS IF PASSWORD CONTISN LOWERCASE LETTER 
-  //   const lowercaseRegex = /[a-z]/
-  //   if (lowercaseRegex.test(e.target.value)) {
-  //     setHasLowercase(true)
-  //   } else {
-  //     setHasLowercase(false)
-  //   }
-
-  //   // CHECKS IF PASSWORD CONTAINS SPECIAL CHARACTER 
-  //   const specialCharRegex = /[!@#$%^&*()]/
-  //   if (specialCharRegex.test(e.target.value)) {
-  //     setHasSpecialChar(true)
-  //   } else {
-  //     setHasSpecialChar(false)
-  //   }
-
-
-  // }
-
   // ONLY HANDLES EMAIL AND PASSWORD ACCOUNTS 
   function handleSubmit(e) {
     e.preventDefault();
@@ -232,7 +195,7 @@ function SignUp() {
   return (
     <div className='sign__Up'>
       <div className="sign__Up__Container">
-        <p>Log in to Cut Critic</p>
+        <p>Sign Up to Cut Critic</p>
         <form onSubmit={handleSubmit}>
 
           {/* FIRST NAME */}
@@ -270,7 +233,7 @@ function SignUp() {
           {/* PASSWORD */}
           <div className="signUp__Input">
             <input
-              type="text"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -281,7 +244,7 @@ function SignUp() {
           {/* CONFIRM PASSWORD */}
           <div className="signUp__Input">
             <input
-              type="text"
+              type="password"
               value={confPassword}
               onChange={(e) => setConfPassword(e.target.value)}
               required

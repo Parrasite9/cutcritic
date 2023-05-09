@@ -51,17 +51,13 @@ form > label > span {
     color: white;
     transition: 0.1s;
     margin-bottom: 10px;
-    width: 100%; /* Added this line to make the input box width match the container */
+    width: 100%;
   }
   
   .signUp__Input > input::placeholder {
     color: white;
   }
 
-  /* .signUp__Input > p {
-    font-size: 3.2em;
-    font-weight: 700;
-  } */
   
   .sign__Up__Container > form > button[type='submit'] {
     background-color: #68c1a9;
