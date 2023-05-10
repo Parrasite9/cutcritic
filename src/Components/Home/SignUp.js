@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import './../CSS/SignUp.css'
-import { addUser } from '../Firebase/Firebase'
+import './../../CSS/Home/SignUp.css'
+import { addUser } from '../../Firebase/Firebase'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';

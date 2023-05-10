@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import './../CSS/Login.css'
-import Navbar from './Navbar'
+import './../../CSS/Home/Login.css'
+import Navbar from '../Navbar'
 import SignUp from './SignUp'
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';

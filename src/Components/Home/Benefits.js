@@ -1,5 +1,5 @@
 import React from 'react'
-import './../CSS/Benefits.css'
+import './../../CSS/Home/Benefits.css'
 import StarsIcon from '@mui/icons-material/Stars';
 
 function Benefits() {
