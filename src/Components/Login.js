@@ -46,54 +46,9 @@ function Login() {
   return (
     <>
       <Navbar/>
-      {/* <div className='login'>
-        {!showSignUp ? (
-          <>
-            <label>
-              User Name
-              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </label>
-            <label>
-              Password
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </label>
-            {errorMessage && <p>{errorMessage}</p>}
-            <button onClick={handleSignIn}>Sign In</button>
-            <button onClick={handleRegister}>Sign Up</button>
-          </>
-        ) : (
-          <>
-            <SignUp />
-            <button onClick={getLoginForm}>Login</button>
-          </>
-        )}
-      </div> */}
-
       <div className='login'>
         {!showSignUp ? (
           <>
-
-
-  {/* <form class="form">
-      <p class="login">Log in to Cut Critic</p>
-      <div class="email__input">
-        <input placeholder="Email" type="text" class="fInput email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input placeholder="Enter your password" type="text" class="fInput pass" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <input type="button" value="next" class="submit" />
-
-      </div>
-      <button class="forget">forget password?</button>
-      <div class="con">
-        <p>don't have account?&nbsp;</p>
-        <a href="#"> Sign Up</a>
-      </div>
-    </form> */}
-
-
-
-
-
-
             <div className="login__container">
               <div className="input__container">
               <p class="login">Log in to Cut Critic</p>
@@ -123,27 +78,13 @@ function Login() {
 
                 </div>
             </div>
-
-
-
-
-
-            {/* <label>
-                User Name
-                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </label>
-              <label>
-                Password
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </label>
-              {errorMessage && <p>{errorMessage}</p>}
-              <button onClick={handleSignIn}>Sign In</button>
-              <button onClick={handleRegister}>Sign Up</button> */}
           </>
         ) : (
           <>
+          <div className="signup__form">
             <SignUp />
             <button onClick={getLoginForm}>Login</button>
+          </div>
           </>
         )}
       </div>

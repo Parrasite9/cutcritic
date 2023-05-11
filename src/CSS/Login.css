@@ -1,17 +1,23 @@
-   .login__container {
+   .login {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login__container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     position: relative;
-    width: 50%;
-    padding: 50px;
-    height: 500px;
-    color: white;
-    background-color: rgb(0, 0, 0);
+    width: 90%;
+    padding: 30px;
+    height: 400px;
+    color: #0072c6;
+    background-color: #f7f7f7;
     border: 1px solid;
     border-radius: 10px;
-    border-color: #e6c462;
+    border-color: #a56f3f;
+    margin: 5% auto;
   }
   
   .input__container {
@@ -19,22 +25,16 @@
     flex-direction: column;
     width: 100%;
   }
-
-  .input__container > p {
-    font-size: 1.5em;
-    font-weight: 700;
-  }
+  
   
   .input__container > input {
-    height: 50px;
+    height: 40px;
     border-radius: 3px;
-    /* border: 1px solid rgb(48, 45, 45); */
     border: 1px solid #e6c462;
-    /* border: 1px solid white; */
-    background-color: black;
+    background-color: #0072c6;
     padding: 10px;
     color: white;
-    transition: .1s;
+    transition: 0.1s;
     margin-bottom: 10px;
   }
   
@@ -50,28 +50,57 @@
     width: 100%;
     padding: 7px 0;
     border-radius: 20px;
-    border: 2px solid;
-    border-color: #fefefe;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
     margin-bottom: 1%;
-}
-
-.signIn__button {
-    background-color: #e6c462;
-}
-
-
-.create__account {
+  }
+  
+  .signIn__button {
+    background-color: #68c1a9;
+    border: 2px solid #a56f3f;
+  }
+  
+  .forgotPass__button {
+    border: none;
+  }
+  
+  .create__account {
     display: flex;
     width: 100%;
-}
-
-.create__account > a {
+  }
+  
+  .create__account > a {
     align-self: center;
     padding-left: 1%;
     margin-left: 2.5%;
-    color: #e6c462;
-}
+    color: #a56f3f;
+  }
 
-  
+  @media (min-width: 750px) {
+    .login__container {
+        width: 50%;
+        padding: 50px;
+    }
+
+    .input__container > p {
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
+    .create__account > a {
+        padding-left: 1%;
+        margin-left: 2.5%;
+    }
+  }
+
+  @media (min-width: 1250px) {
+    .login__container {
+        width: 35%;
+        padding: 50px;
+    }
+
+    .create__account > a {
+        padding-left: 1%;
+        margin-left: .5%;
+    }
+  }
