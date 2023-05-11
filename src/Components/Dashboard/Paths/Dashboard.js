@@ -37,7 +37,9 @@ function Dashboard({userId}) {
 
   return (
     <>
-      <Dash_Sidebar />
+    <div className="dashboard__container">
+       <Dash_Sidebar />
+       {largeView && <Dash_Sidebar />}
       {/* THE FOLLOWING GRID DISPLAYS AS FOLLOWS 
     ------------------------
     |          |            |
@@ -86,6 +88,7 @@ function Dashboard({userId}) {
 
         </>
       )}
+    </div>
     </>
   )
 }

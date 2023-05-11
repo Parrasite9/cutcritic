@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { query, where, getDocs, addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -26,6 +26,19 @@ export async function addUser(firstName, lastName, birthYear) {
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
+  }
+}
+
+export async function fetchBarbersAndStylists() {
+  try {
+    const providersCollectionRef = collection(db, 'providers');
+    const q = query(providersCollectionRef, where('isVerified', '==', true));
+    const snapshot = await getDocs(q);
+    const barbersAndStylists = snapshot.docs.map((doc) => doc.data());
+    return barbersAndStylists;
+  } catch (error) {
+    console.error('Error fetching barbers and stylists:', error);
+    return [];
   }
 }
 

@@ -9,6 +9,7 @@ import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Paths/Dashboard'
+import UpgradeForm from './Components/Home/AccountUpgrade/UpgradeForm'
 
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
 
           {/* DASHBOARD ROUTES  */}
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
+
+          {/* UPGRADE ACCOUNT ROUTE  */}
+          <Route path='/upgrade' element={<UpgradeForm />} />
 
 
         </Routes>

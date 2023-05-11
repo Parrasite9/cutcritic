@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-
+import GeoLocation from './GeoLocation';
 
 
 function Navbar({userId}) {
@@ -162,6 +162,7 @@ function Navbar({userId}) {
                       <Link to='#' className="navlink__Item3">About</Link>
                       <Link to={`/user/:id/dashboard`} className="navlink__Item4">My Dashboard</Link>
                       <Link to='#' className="navlink__Item5" onClick={handleLogout}>Logout</Link>
+                      <Link to={`/upgrade`} className="navlink__Item6">Upgrade</Link>
                     </>
                   ) : (
                     // IS THE USER CURRENTLY LOGGED OUT? 
@@ -180,7 +181,10 @@ function Navbar({userId}) {
          </>
       )}
 
-        <input type="text" placeholder='Find services' />
+        <div className="search__Container">
+          <input type="text" placeholder='Find services' />
+          <GeoLocation />
+        </div>
       </div>
     </div>
   )
