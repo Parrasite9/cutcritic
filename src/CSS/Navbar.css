@@ -30,7 +30,8 @@
     margin-left: 1.5%;
 }
 
-.navbar__Container > input {
+
+.search__Container > input {
     width: 98%;
     height: 2.5em;
     font-size: 1em;

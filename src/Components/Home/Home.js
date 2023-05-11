@@ -1,12 +1,12 @@
 import React from 'react'
-import './../CSS/Hero.css'
-import Navbar from './Navbar'
+import './../../CSS/Home/Hero.css'
+import Navbar from '../Navbar'
 import Hero from './Hero'
 import Featured from './Featured'
 import Ratings from './Ratings'
-import Services from './Services'
+import Services from '../Home/Services'
 import Benefits from './Benefits'
-import Testimony from './Testimony'
+import Testimony from '../Home/Testimony'
 
 
 function Home({userId}) {
