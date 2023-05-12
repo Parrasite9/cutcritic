@@ -67,7 +67,22 @@ function SignUp({ getLoginForm }) {
         West_Virginia: "West Virginia Board of Barbers and Cosmetologists",
         Wisconsin: "Wisconsin Department of Safety and Professional Services",
         Wyoming: "Wyoming Board of Cosmetology",
-      };
+    };
+
+    const licenseTypes = [
+        'Cosmetologist License',
+        'Esthetician License',
+        'Nail Technician License',
+        'Barber License',
+        'Makeup Artist License',
+        'Hair Braider License',
+        'Massage Therapist License',
+        'Electrologist License',
+        'Waxing Specialist License',
+        'Spa Manager License',
+        'Salon Owner License',
+        'Cosmetology Instructor License',
+    ];
       
 
   const [firstName, setFirstName] = useState('')
@@ -80,6 +95,7 @@ function SignUp({ getLoginForm }) {
   const [licenseType, setLicenseType] = useState('');
   const [licenseIssuingAuthority, setLicenseIssuingAuthority] = useState('');
 //   const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
+  const [selectedLicenseTypes, setSelectedLicenseTypes] = useState([]);
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
   const handleDateOfBirthChange = (e) => {
@@ -121,8 +137,18 @@ function SignUp({ getLoginForm }) {
   };
 
   //   LICENSE TYPE 
-  const handleLicenseTypeChange = (e) => {
-    setLicenseType(e.target.value);
+//   const handleLicenseTypeChange = (e) => {
+//     setLicenseType(e.target.value);
+//   };
+  const handleLicenseTypeChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setSelectedLicenseTypes((prevSelectedTypes) => [...prevSelectedTypes, value]);
+    } else {
+      setSelectedLicenseTypes((prevSelectedTypes) =>
+        prevSelectedTypes.filter((type) => type !== value)
+      );
+    }
   };
 
 //   ISSUING AUTHORITY 
@@ -213,14 +239,20 @@ function SignUp({ getLoginForm }) {
           </div>
           
            {/* LICENSE TYPE */}
-           <div className="signUp__Input">
-              <input
-                type="text"
-                value={licenseType}
-                onChange={handleLicenseTypeChange}
-                placeholder="License Type"
-              />
-           </div>
+           <div className="signUp__Input checkbox__Container">
+                <label>License Types:</label>
+                {licenseTypes.map((type) => (
+                <div key={type}>
+                    <input
+                        type="checkbox"
+                        value={type}
+                        checked={selectedLicenseTypes.includes(type)}
+                        onChange={handleLicenseTypeChange}
+                    />
+                <label>{type}</label>
+          </div>
+        ))}
+      </div>
 
             {/* LICENSE AUTHORITY */}
             <div className="signUp__Input">
@@ -234,9 +266,7 @@ function SignUp({ getLoginForm }) {
 
 
                 
-
-
-          <button type='submit'>Sign Up</button>
+          <button type='submit'>Submit Request</button>
         </form>
       </div>
     </div>
