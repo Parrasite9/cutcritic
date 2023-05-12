@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './../../../CSS/Home/SignUp.css'
+import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
 
 function SignUp({ getLoginForm }) {
 
@@ -166,13 +166,13 @@ function SignUp({ getLoginForm }) {
   
 
   return (
-    <div className='sign__Up'>
-      <div className="sign__Up__Container">
+    <div className='upgrade__Form'>
+      <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
         <form>
 
           {/* FIRST NAME */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input
               type="text"
               value={firstName}
@@ -183,7 +183,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* LAST NAME */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input
               type="text"
               value={lastName}
@@ -193,7 +193,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* State of License */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <select 
                 value={stateLicense} 
                 onChange={e => setStateLicense(e.target.value)}
@@ -207,7 +207,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* License Number */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input 
                 type="text"
                 value={licenseNumber}
@@ -218,7 +218,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* DOB */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input 
                 type="text"
                 value={dateOfBirth}
@@ -229,7 +229,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* LICENSE EXPIRATION */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
           <input
             type="text"
             value={expirationDate}
@@ -239,30 +239,32 @@ function SignUp({ getLoginForm }) {
           </div>
           
            {/* LICENSE TYPE */}
-           <div className="signUp__Input checkbox__Container">
+           <div className="upgradeForm__Input checkbox__Container">
                 <label>License Types:</label>
-                {licenseTypes.map((type) => (
-                <div key={type}>
-                    <input
-                        type="checkbox"
-                        value={type}
-                        checked={selectedLicenseTypes.includes(type)}
-                        onChange={handleLicenseTypeChange}
-                    />
-                <label>{type}</label>
-          </div>
-        ))}
-      </div>
+                <div className='license__type'>
+                    {licenseTypes.map((type) => (
+                    <div key={type}>
+                        <input
+                            type="checkbox"
+                            value={type}
+                            checked={selectedLicenseTypes.includes(type)}
+                            onChange={handleLicenseTypeChange}
+                        />
+                        <label>{type}</label>
+                    </div>
+                    ))}
+                </div>
+           </div>
 
             {/* LICENSE AUTHORITY */}
-            <div className="signUp__Input">
+            <div className="upgradeForm__Input">
                 <input
                     type="text"
                     value={licenseIssuingAuthority}
                     readOnly
                     placeholder="License Issuing Authority"
                 />
-           </div>
+            </div>
 
 
                 
