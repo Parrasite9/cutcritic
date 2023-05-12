@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './../../../CSS/Home/SignUp.css'
+import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
 
 function SignUp({ getLoginForm }) {
 
@@ -67,19 +67,35 @@ function SignUp({ getLoginForm }) {
         West_Virginia: "West Virginia Board of Barbers and Cosmetologists",
         Wisconsin: "Wisconsin Department of Safety and Professional Services",
         Wyoming: "Wyoming Board of Cosmetology",
-      };
+    };
+
+    const licenseTypes = [
+        'Cosmetologist License',
+        'Esthetician License',
+        'Nail Technician License',
+        'Barber License',
+        'Makeup Artist License',
+        'Hair Braider License',
+        'Massage Therapist License',
+        'Electrologist License',
+        'Waxing Specialist License',
+        'Spa Manager License',
+        'Salon Owner License',
+        'Cosmetology Instructor License',
+    ];
       
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [stateLicense, setStateLicense] = useState(statesList[0])
+  const [stateLicense, setStateLicense] = useState('')
   const [licenseNumber, setLicenseNumber] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [licenseType, setLicenseType] = useState('');
   const [licenseIssuingAuthority, setLicenseIssuingAuthority] = useState('');
 //   const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
+  const [selectedLicenseTypes, setSelectedLicenseTypes] = useState([]);
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
   const handleDateOfBirthChange = (e) => {
@@ -122,8 +138,17 @@ function SignUp({ getLoginForm }) {
 
   //   LICENSE TYPE 
   const handleLicenseTypeChange = (e) => {
-    setLicenseType(e.target.value);
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedLicenseTypes((prevSelectedTypes) => [...prevSelectedTypes, value]);
+    } else {
+      setSelectedLicenseTypes((prevSelectedTypes) =>
+        prevSelectedTypes.filter((type) => type !== value)
+      );
+    }
   };
+
+  const isAtLeastOneCheckboxSelected = selectedLicenseTypes.length > 0;
 
 //   ISSUING AUTHORITY 
     const handleLicenseIssuingAuthorityChange = (selectedState) => {
@@ -140,13 +165,13 @@ function SignUp({ getLoginForm }) {
   
 
   return (
-    <div className='sign__Up'>
-      <div className="sign__Up__Container">
+    <div className='upgrade__Form'>
+      <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
         <form>
 
           {/* FIRST NAME */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input
               type="text"
               value={firstName}
@@ -157,31 +182,53 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* LAST NAME */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name *"
+              required
             />
           </div>
 
           {/* State of License */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <select 
                 value={stateLicense} 
                 onChange={e => setStateLicense(e.target.value)}
+                required
             >
+                <option value="" disabled hidden>Select State License</option>
                 {statesList.map(state => (
-                    <option key={state} value={state}>
-                        {state}
-                    </option>
+                <option key={state} value={state}>
+                    {state}
+                </option>
                 ))}
             </select>
+            {/* {stateLicense !== "" && (
+                <input
+                    type="text"
+                    value={licenseIssuingAuthority}
+                    readOnly
+                    placeholder="License Issuing Authority"
+                />
+                )} */}
           </div>
 
+          {/* LICENSE AUTHORITY */}
+          <div className="upgradeForm__Input">
+                <input
+                    type="text"
+                    value={licenseIssuingAuthority}
+                    readOnly
+                    placeholder="License Issuing Authority"
+                />
+            </div>
+
+
           {/* License Number */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
             <input 
                 type="text"
                 value={licenseNumber}
@@ -192,7 +239,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* DOB */}
-          <div className="signUp__Input">
+          {/* <div className="upgradeForm__Input">
             <input 
                 type="text"
                 value={dateOfBirth}
@@ -200,43 +247,48 @@ function SignUp({ getLoginForm }) {
                 placeholder='Date of Birth MMDDYYYY'
                 required
              />
-          </div>
+          </div> */}
 
           {/* LICENSE EXPIRATION */}
-          <div className="signUp__Input">
+          <div className="upgradeForm__Input">
           <input
             type="text"
             value={expirationDate}
             onChange={handleExpirationDateChange}
             placeholder="Expiration Date MMYY"
+            required
             />
           </div>
           
            {/* LICENSE TYPE */}
-           <div className="signUp__Input">
-              <input
-                type="text"
-                value={licenseType}
-                onChange={handleLicenseTypeChange}
-                placeholder="License Type"
-              />
+           <div className="upgradeForm__Input checkbox__Container">
+                <label>License Types:</label>
+                <div className='license__type'>
+                    {licenseTypes.map((type) => (
+                    <div key={type}>
+                        <input
+                            type="checkbox"
+                            value={type}
+                            checked={selectedLicenseTypes.includes(type)}
+                            onChange={handleLicenseTypeChange}
+                        />
+                        <label>{type}</label>
+                    </div>
+                    ))}
+                </div>
            </div>
 
-            {/* LICENSE AUTHORITY */}
-            <div className="signUp__Input">
-                <input
-                    type="text"
-                    value={licenseIssuingAuthority}
-                    readOnly
-                    placeholder="License Issuing Authority"
-                />
-           </div>
+           <div className='upgradeForm__Errors'>
+                {!isAtLeastOneCheckboxSelected && (
+                    <p className="error-message">Please select at least one license type.</p>
+                )}
+            </div>
+
+
 
 
                 
-
-
-          <button type='submit'>Sign Up</button>
+          <button type='submit'>Submit Request</button>
         </form>
       </div>
     </div>
