@@ -88,7 +88,7 @@ function SignUp({ getLoginForm }) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [stateLicense, setStateLicense] = useState(statesList[0])
+  const [stateLicense, setStateLicense] = useState('')
   const [licenseNumber, setLicenseNumber] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
@@ -137,11 +137,8 @@ function SignUp({ getLoginForm }) {
   };
 
   //   LICENSE TYPE 
-//   const handleLicenseTypeChange = (e) => {
-//     setLicenseType(e.target.value);
-//   };
-  const handleLicenseTypeChange = (event) => {
-    const { value, checked } = event.target;
+  const handleLicenseTypeChange = (e) => {
+    const { value, checked } = e.target;
     if (checked) {
       setSelectedLicenseTypes((prevSelectedTypes) => [...prevSelectedTypes, value]);
     } else {
@@ -150,6 +147,8 @@ function SignUp({ getLoginForm }) {
       );
     }
   };
+
+  const isAtLeastOneCheckboxSelected = selectedLicenseTypes.length > 0;
 
 //   ISSUING AUTHORITY 
     const handleLicenseIssuingAuthorityChange = (selectedState) => {
@@ -189,6 +188,7 @@ function SignUp({ getLoginForm }) {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name *"
+              required
             />
           </div>
 
@@ -197,14 +197,35 @@ function SignUp({ getLoginForm }) {
             <select 
                 value={stateLicense} 
                 onChange={e => setStateLicense(e.target.value)}
+                required
             >
+                <option value="" disabled hidden>Select State License</option>
                 {statesList.map(state => (
-                    <option key={state} value={state}>
-                        {state}
-                    </option>
+                <option key={state} value={state}>
+                    {state}
+                </option>
                 ))}
             </select>
+            {/* {stateLicense !== "" && (
+                <input
+                    type="text"
+                    value={licenseIssuingAuthority}
+                    readOnly
+                    placeholder="License Issuing Authority"
+                />
+                )} */}
           </div>
+
+          {/* LICENSE AUTHORITY */}
+          <div className="upgradeForm__Input">
+                <input
+                    type="text"
+                    value={licenseIssuingAuthority}
+                    readOnly
+                    placeholder="License Issuing Authority"
+                />
+            </div>
+
 
           {/* License Number */}
           <div className="upgradeForm__Input">
@@ -218,7 +239,7 @@ function SignUp({ getLoginForm }) {
           </div>
 
           {/* DOB */}
-          <div className="upgradeForm__Input">
+          {/* <div className="upgradeForm__Input">
             <input 
                 type="text"
                 value={dateOfBirth}
@@ -226,7 +247,7 @@ function SignUp({ getLoginForm }) {
                 placeholder='Date of Birth MMDDYYYY'
                 required
              />
-          </div>
+          </div> */}
 
           {/* LICENSE EXPIRATION */}
           <div className="upgradeForm__Input">
@@ -235,6 +256,7 @@ function SignUp({ getLoginForm }) {
             value={expirationDate}
             onChange={handleExpirationDateChange}
             placeholder="Expiration Date MMYY"
+            required
             />
           </div>
           
@@ -256,15 +278,13 @@ function SignUp({ getLoginForm }) {
                 </div>
            </div>
 
-            {/* LICENSE AUTHORITY */}
-            <div className="upgradeForm__Input">
-                <input
-                    type="text"
-                    value={licenseIssuingAuthority}
-                    readOnly
-                    placeholder="License Issuing Authority"
-                />
+           <div className='upgradeForm__Errors'>
+                {!isAtLeastOneCheckboxSelected && (
+                    <p className="error-message">Please select at least one license type.</p>
+                )}
             </div>
+
+
 
 
                 
