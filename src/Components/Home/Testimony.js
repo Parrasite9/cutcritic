@@ -1,5 +1,5 @@
 import React from 'react'
-import './../CSS/Testimony.css'
+import './../../CSS/Home/Testimony.css'
 
 function Testimony() {
   return (

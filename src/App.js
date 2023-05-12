@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './Components/Navbar'
 
 import './App.css'
-import SignUp from './Components/SignUp'
-import Login from './Components/Login'
-import Home from './Components/Home'
+import SignUp from './Components/Home/SignUp'
+import Login from './Components/Home/Login'
+import Home from './Components/Home/Home'
 import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Paths/Dashboard'
+import UpgradeForm from './Components/Home/AccountUpgrade/UpgradeForm'
 
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
 
           {/* DASHBOARD ROUTES  */}
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
+
+          {/* UPGRADE ACCOUNT ROUTE  */}
+          <Route path='/upgrade' element={<UpgradeForm />} />
 
 
         </Routes>

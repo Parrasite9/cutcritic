@@ -1,7 +1,7 @@
 import { Rating } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
-import './../CSS/Ratings.css'
+import './../../CSS/Home/Ratings.css'
 
 function Ratings() {
 
