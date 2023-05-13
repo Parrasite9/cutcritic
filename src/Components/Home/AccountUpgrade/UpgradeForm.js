@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
+import { FirebaseApp } from 'firebase/app';
 
-function SignUp({ getLoginForm }) {
+
+function UpgradeForm({ getLoginForm }) {
 
     const statesList = [
         "Alabama", "Alaska", "Arizona", "Arkansas", "California",
@@ -94,7 +96,8 @@ function SignUp({ getLoginForm }) {
   const [expirationDate, setExpirationDate] = useState('');
   const [licenseType, setLicenseType] = useState('');
   const [licenseIssuingAuthority, setLicenseIssuingAuthority] = useState('');
-//   const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
+
+  //  const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
   const [selectedLicenseTypes, setSelectedLicenseTypes] = useState([]);
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
@@ -148,13 +151,50 @@ function SignUp({ getLoginForm }) {
     }
   };
 
+  //   MAKES SURE ATLEAST ONE LICENSE TYPE (CHECKBOX) IS SELECTED 
   const isAtLeastOneCheckboxSelected = selectedLicenseTypes.length > 0;
 
-//   ISSUING AUTHORITY 
-    const handleLicenseIssuingAuthorityChange = (selectedState) => {
+  //   ISSUING AUTHORITY 
+  const handleLicenseIssuingAuthorityChange = (selectedState) => {
     const issuingAuthority = stateIssuingAuthorities[selectedState] || '';
     setLicenseIssuingAuthority(issuingAuthority);
   };
+
+  const handleSubmit__Professional__Account = async (e) => {
+    e.preventDefault()
+
+    // const professionalAccount__FormData = {
+    //     firstName,
+    //     lastName,
+    //     email,
+    //     stateLicense,
+    //     licenseNumber,
+    //     expirationDate,
+    //     licenseTypes: selectedLicenseTypes,
+    // }
+
+    const userId = firebase.auth().currentUser.userId
+
+    try {
+        // Retrieve user data from Firebase
+        const userData = await getUserData(userId);
+    
+        // Verify user data with the state-specific API
+        const verificationResult = await verifyUserWithStateAPI(userData);
+    
+        // Update user account status based on the verification result
+        await updateAccountStatus(userId, verificationResult.approvalStatus);
+    
+        // Notify the user about the outcome
+        await notifyUser(userId, verificationResult.approvalStatus);
+    
+        // Additional logic if needed
+    
+      } catch (error) {
+        console.error('Error handling upgrade request:', error);
+        // Handle the error appropriately (e.g., show an error message to the user)
+      }
+  }
   
 
   useEffect(() => {
@@ -168,7 +208,7 @@ function SignUp({ getLoginForm }) {
     <div className='upgrade__Form'>
       <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
-        <form>
+        <form onSubmit={handleSubmit__Professional__Account}>
 
           {/* FIRST NAME */}
           <div className="upgradeForm__Input">
@@ -224,7 +264,7 @@ function SignUp({ getLoginForm }) {
                     readOnly
                     placeholder="License Issuing Authority"
                 />
-            </div>
+          </div>
 
 
           {/* License Number */}
@@ -237,17 +277,6 @@ function SignUp({ getLoginForm }) {
                 required
                 />
           </div>
-
-          {/* DOB */}
-          {/* <div className="upgradeForm__Input">
-            <input 
-                type="text"
-                value={dateOfBirth}
-                onChange={handleDateOfBirthChange}
-                placeholder='Date of Birth MMDDYYYY'
-                required
-             />
-          </div> */}
 
           {/* LICENSE EXPIRATION */}
           <div className="upgradeForm__Input">
@@ -282,7 +311,7 @@ function SignUp({ getLoginForm }) {
                 {!isAtLeastOneCheckboxSelected && (
                     <p className="error-message">Please select at least one license type.</p>
                 )}
-            </div>
+           </div>
 
 
 
@@ -295,4 +324,4 @@ function SignUp({ getLoginForm }) {
   )
 }
 
-export default SignUp
+export default UpgradeForm
