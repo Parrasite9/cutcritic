@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
 
-function SignUp({ getLoginForm }) {
+import 'firebase/firestore';
+import app, { auth } from '../../../Firebase/Firebase'
+import { getUserData, updateAccountStatus, notifyUser } from '../../../Firebase/Firebase';
+import { verifyUserWithTxAPI } from './StateAPIs/P-Z/Tx';
+
+
+function UpgradeForm({ getLoginForm }) {
 
     const statesList = [
         "Alabama", "Alaska", "Arizona", "Arkansas", "California",
@@ -94,7 +100,8 @@ function SignUp({ getLoginForm }) {
   const [expirationDate, setExpirationDate] = useState('');
   const [licenseType, setLicenseType] = useState('');
   const [licenseIssuingAuthority, setLicenseIssuingAuthority] = useState('');
-//   const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
+
+  //  const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
   const [selectedLicenseTypes, setSelectedLicenseTypes] = useState([]);
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
@@ -115,7 +122,7 @@ function SignUp({ getLoginForm }) {
       formattedInput += '/' + numericInput.slice(4, 8);
     }
 
-    setDateOfBirth(formattedInput);
+    setDateOfBirth(numericInput);
   };
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
@@ -148,13 +155,53 @@ function SignUp({ getLoginForm }) {
     }
   };
 
+  //   MAKES SURE ATLEAST ONE LICENSE TYPE (CHECKBOX) IS SELECTED 
   const isAtLeastOneCheckboxSelected = selectedLicenseTypes.length > 0;
 
-//   ISSUING AUTHORITY 
-    const handleLicenseIssuingAuthorityChange = (selectedState) => {
+  //   ISSUING AUTHORITY 
+  const handleLicenseIssuingAuthorityChange = (selectedState) => {
     const issuingAuthority = stateIssuingAuthorities[selectedState] || '';
     setLicenseIssuingAuthority(issuingAuthority);
   };
+
+  const handleSubmit__Professional__Account = async (e) => {
+    e.preventDefault();
+  
+    const userId = auth.currentUser.uid; // Use the 'auth' object from 'getAuth(app)' instead of 'firebase.auth()'
+    const selectedState = e.target.elements.stateSelect.value; // Assuming your select element has the name "stateSelect"
+  
+    try {
+      // Retrieve user data from Firebase
+      const userData = await getUserData(userId);
+  
+      // Verify user data with the appropriate verification API based on the selected state
+      let verificationResult;
+      if (selectedState === 'Texas') {
+        verificationResult = await verifyUserWithTxAPI(userData);
+      } else if (selectedState === 'Arizona') {
+        // verificationResult = await verifyUserWithAzAPI(userData);
+      } else {
+        // Handle other states or provide a default behavior
+        // For example, you can set verificationResult to a default value
+        verificationResult = { approvalStatus: 'Unknown' };
+      }
+  
+      // Update user account status based on the verification result
+      await updateAccountStatus(userId, verificationResult.approvalStatus);
+  
+      // Notify the user about the outcome
+      await notifyUser(userId, verificationResult.approvalStatus);
+  
+      // Additional logic if needed
+  
+    } catch (error) {
+      console.error('Error handling upgrade request:', error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+  
+  
+  
   
 
   useEffect(() => {
@@ -168,7 +215,7 @@ function SignUp({ getLoginForm }) {
     <div className='upgrade__Form'>
       <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
-        <form>
+        <form onSubmit={handleSubmit__Professional__Account}>
 
           {/* FIRST NAME */}
           <div className="upgradeForm__Input">
@@ -224,7 +271,7 @@ function SignUp({ getLoginForm }) {
                     readOnly
                     placeholder="License Issuing Authority"
                 />
-            </div>
+          </div>
 
 
           {/* License Number */}
@@ -237,17 +284,6 @@ function SignUp({ getLoginForm }) {
                 required
                 />
           </div>
-
-          {/* DOB */}
-          {/* <div className="upgradeForm__Input">
-            <input 
-                type="text"
-                value={dateOfBirth}
-                onChange={handleDateOfBirthChange}
-                placeholder='Date of Birth MMDDYYYY'
-                required
-             />
-          </div> */}
 
           {/* LICENSE EXPIRATION */}
           <div className="upgradeForm__Input">
@@ -282,7 +318,7 @@ function SignUp({ getLoginForm }) {
                 {!isAtLeastOneCheckboxSelected && (
                     <p className="error-message">Please select at least one license type.</p>
                 )}
-            </div>
+           </div>
 
 
 
@@ -295,4 +331,4 @@ function SignUp({ getLoginForm }) {
   )
 }
 
-export default SignUp
+export default UpgradeForm
