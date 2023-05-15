@@ -16,12 +16,14 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app)
 
-export async function addUser(firstName, lastName, birthYear) {
+// THIS ASSIST WITH PUTTING USERS INSIDE OF THE ALL ACCOUNTS COLLECTION IN THE FIRESTORE 
+export async function addUser(email, firstName, lastName, accountType) {
   try {
-    const docRef = await addDoc(collection(db, "users"), {
+    const docRef = await addDoc(collection(db, "All__Accounts"), {
+      email: email,
       first: firstName,
       last: lastName,
-      born: birthYear,
+      accountType: accountType,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {

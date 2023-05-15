@@ -83,6 +83,20 @@ function SignUp({ getLoginForm }) {
     }
   }, [password]);
 
+  // HANDLESIGNUP ASSIST WITH PUTTING USERS IN FIRESTORE COLLECTION 
+  const handleSignUp = (email, firstName, lastName) => {
+    const accountType = 'standard'; // Set the initial account type as "standard"
+    addUser(email, firstName, lastName, accountType)
+      .then(() => {
+        console.log('User account created and populated in the All_Accounts collection');
+        // Additional logic after successful account creation (e.g., navigate to the dashboard, display success message)
+      })
+      .catch((error) => {
+        console.error('Error creating user account: ', error);
+        // Handle the error appropriately (e.g., display an error message to the user)
+      });
+  };
+
 
   // ONLY HANDLES EMAIL AND PASSWORD ACCOUNTS 
   function handleSubmit(e) {
@@ -116,6 +130,8 @@ function SignUp({ getLoginForm }) {
         const user = userCredential.user;
         // ...
         console.log(`User ${user.uid} successfully created. `);
+        // HANDLESIGNUP ASSIST WITH PUTTING USERS IN FIRESTORE COLLECTION 
+        handleSignUp(email, firstName, lastName)
       })
       .catch((error) => {
         const errorCode = error.code;
