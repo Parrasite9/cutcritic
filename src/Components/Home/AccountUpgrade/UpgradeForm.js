@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
-
 import 'firebase/firestore';
 import app, { auth } from '../../../Firebase/Firebase'
 import { getUserData, updateAccountStatus, notifyUser } from '../../../Firebase/Firebase';
+import { upgradeAccount } from '../../../Firebase/Firestore';
 import { verifyUserWithTxAPI } from './StateAPIs/P-Z/Tx';
 
 
@@ -164,6 +164,19 @@ function UpgradeForm({ getLoginForm }) {
     setLicenseIssuingAuthority(issuingAuthority);
   };
 
+  // Handle upgrade form submission
+  const handleUpgrade = (email) => {
+    upgradeAccount(email)
+        .then(() => {
+        console.log("Account upgrade request submitted");
+        // Additional logic after successful upgrade request (e.g., display success message)
+        })
+        .catch((error) => {
+        console.error("Error upgrading account: ", error);
+        // Handle the error appropriately (e.g., display an error message to the user)
+        });
+    };
+
   const handleSubmit__Professional__Account = async (e) => {
     e.preventDefault();
   
@@ -198,9 +211,11 @@ function UpgradeForm({ getLoginForm }) {
       console.error('Error handling upgrade request:', error);
       // Handle the error appropriately (e.g., show an error message to the user)
     }
+
+    handleUpgrade()
   };
   
-  
+
   
   
 
