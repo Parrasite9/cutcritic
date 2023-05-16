@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, doc, updateDoc, getDoc } from "firebase/firestore";
 import { addUser } from "./Firestore";
 import { getAuth } from 'firebase/auth'
 import { sendEmail } from '../Components/Home/AccountUpgrade/sendEmail'
@@ -64,22 +64,29 @@ const auth = getAuth(app)
 // Retrieve user data from Firebase based on a specific user ID or other criteria
 const getUserData = async (userId) => {
   try {
-    const doc = await db.collection('users').doc(userId).get();
-    if (doc.exists) {
-      return doc.data();
+    console.log('getUserData - userId:', userId); // Log the userId
+    const userDocRef = doc(db, 'All__Accounts', userId);
+    const docSnap = await getDoc(userDocRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      throw new Error('User data not found');
     }
-    throw new Error('User data not found');
   } catch (error) {
     console.error('Error retrieving user data:', error);
     throw error;
   }
 };
 
+
+
+
+
 // Update Account Status in Firebase (Professional Upgrades)
 const updateAccountStatus = async (userId, approvalStatus) => {
   try {
-    // Update the user's account status in Firebase
-    await db.collection('users').doc(userId).update({
+    const userDocRef = doc(db, 'All__Accounts', userId);
+    await updateDoc(userDocRef, {
       approvalStatus,
     });
   } catch (error) {
@@ -87,6 +94,7 @@ const updateAccountStatus = async (userId, approvalStatus) => {
     throw error;
   }
 };
+
 
 const handleUpgradeRequest = async (userId, selectedState) => {
   try {
@@ -130,7 +138,7 @@ const notifyUser = async (userId, approvalStatus) => {
     await sendEmail(email, subject, message);
 
     // Example: Update a field in the user document to indicate the approval status
-    await db.collection('users').doc(userId).update({
+    await db.collection('All__Accounts').doc(userId).update({
       upgradeStatus: approvalStatus,
     });
 
@@ -141,6 +149,7 @@ const notifyUser = async (userId, approvalStatus) => {
     // Handle the error appropriately (e.g., log the error, show an error message, etc.)
   }
 };
+
 
 
 

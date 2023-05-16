@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { query, where, getDocs, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc } from 'firebase/firestore';
+import { query, where, getDocs, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -19,6 +19,9 @@ const auth = getAuth(app)
 // THIS ASSIST WITH PUTTING USERS INSIDE OF THE ALL ACCOUNTS COLLECTION IN THE FIRESTORE 
 export async function addUser(email, firstName, lastName, accountType) {
   try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
     const userData = {
       email: email,
       first: firstName,
@@ -28,19 +31,18 @@ export async function addUser(email, firstName, lastName, accountType) {
 
     const batch = writeBatch(db);
 
-    // Add the document to "All__Accounts" collection
-    const allAccountsRef = doc(collection(db, "All__Accounts"));
+    // Add the document to "All__Accounts" collection with the user ID as the document ID
+    const allAccountsRef = doc(collection(db, "All__Accounts"), userId);
     batch.set(allAccountsRef, userData);
 
     // Check if the accountType is "standard" and add the document to the separate collection
     if (accountType === "standard") {
-      const standardAccountsRef = doc(collection(db, "StandardAccounts"));
+      const standardAccountsRef = doc(collection(db, "StandardAccounts"), userId);
       batch.set(standardAccountsRef, userData);
     } else if (accountType === "professional") {
-      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"));
+      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
       batch.set(professionalAccountsRef, userData);
     }
-
 
     await batch.commit();
 
@@ -51,22 +53,37 @@ export async function addUser(email, firstName, lastName, accountType) {
   }
 }
 
+
 // IF ACC. IS UPGRADED, THIS REMOVES ACCOUNTS FROM STANDARD COLLECTION AND PLACES THEM IN UPGRADED COLLECTION
 export async function upgradeAccount(email) {
   try {
     // Get the document reference from the "StandardAccounts" collection based on the user's email
     const standardAccountsQuery = query(collection(db, "StandardAccounts"), where("email", "==", email));
     const standardAccountsSnapshot = await getDocs(standardAccountsQuery);
-    
+
     if (!standardAccountsSnapshot.empty) {
-      // Move the user document to the "ProfessionalAccounts" collection
+      // Move the user document to the "ProfessionalAccounts" collection with the user ID as the document ID
       const standardAccountDoc = standardAccountsSnapshot.docs[0];
       const userData = standardAccountDoc.data();
-      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"));
+      const userId = standardAccountDoc.id;
+      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
       await setDoc(professionalAccountsRef, userData);
 
       // Delete the user document from the "StandardAccounts" collection
       await deleteDoc(standardAccountDoc.ref);
+
+      // Update the account type in the "All__Accounts" collection
+      const allAccountsQuery = query(collection(db, "All__Accounts"), where("email", "==", email));
+      const allAccountsSnapshot = await getDocs(allAccountsQuery);
+
+      if (!allAccountsSnapshot.empty) {
+        const allAccountsDoc = allAccountsSnapshot.docs[0];
+        await updateDoc(allAccountsDoc.ref, { accountType: "professional" });
+
+        console.log("Account type successfully updated in the All__Accounts collection");
+      } else {
+        console.log("User not found in the All__Accounts collection");
+      }
 
       console.log("Account successfully upgraded");
     } else {
@@ -77,31 +94,6 @@ export async function upgradeAccount(email) {
   }
 }
 
-// IF ACC. NO LONGER HAS PROFESSIONAL PRIVELEDGES, THIS WILL DOWNGRADE THEIR ACCOUNT. 
-export async function downgradeAccount(email) {
-  try {
-    // Get the document reference from the "ProfessionalAccounts" collection based on the user's email
-    const professionalAccountsQuery = query(collection(db, "ProfessionalAccounts"), where("email", "==", email));
-    const professionalAccountsSnapshot = await getDocs(professionalAccountsQuery);
-    
-    if (!professionalAccountsSnapshot.empty) {
-      // Move the user document to the "DowngradedAccounts" collection
-      const professionalAccountDoc = professionalAccountsSnapshot.docs[0];
-      const userData = professionalAccountDoc.data();
-      const downgradedAccountsRef = doc(collection(db, "DowngradedAccounts"));
-      await setDoc(downgradedAccountsRef, userData);
-
-      // Delete the user document from the "ProfessionalAccounts" collection
-      await deleteDoc(professionalAccountDoc.ref);
-
-      console.log("Account successfully downgraded");
-    } else {
-      console.log("User not found in the ProfessionalAccounts collection");
-    }
-  } catch (e) {
-    console.error("Error downgrading account: ", e);
-  }
-}
 
 // BELOW IS THE REQUIRED FUNCTION AND CALL FOR THE DOWNGRADE. THIS NEEDS TO BE PLACED 
 // IN A DIFFERENT FILE, POSSIBLY A SETTINGS PAGE WHERE IT HAS A DOWNGRADE OR DELETE ACCOUNT BUTTON. 
@@ -109,12 +101,27 @@ export async function downgradeAccount(email) {
 // const handleDowngrade = async (email) => {
 //   try {
 //     await downgradeAccount(email);
+
+//     // Update the account type in the "All__Accounts" collection
+//     const allAccountsQuery = query(collection(db, "All__Accounts"), where("email", "==", email));
+//     const allAccountsSnapshot = await getDocs(allAccountsQuery);
+
+//     if (!allAccountsSnapshot.empty) {
+//       const allAccountsDoc = allAccountsSnapshot.docs[0];
+//       await updateDoc(allAccountsDoc.ref, { accountType: "standard" });
+
+//       console.log("Account type successfully updated in the All__Accounts collection");
+//     } else {
+//       console.log("User not found in the All__Accounts collection");
+//     }
+
 //     console.log("Account downgrade requested");
 //   } catch (error) {
 //     console.error("Error handling account downgrade:", error);
 //     // Handle the error appropriately (e.g., show an error message to the user)
 //   }
 // };
+
 
 // <button onClick={() => handleDowngrade(email)}>Downgrade Account</button>
 

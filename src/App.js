@@ -9,7 +9,7 @@ import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Paths/Dashboard'
-import UpgradeForm from './Components/Home/AccountUpgrade/UpgradeForm'
+import UpgradePage from './Components/Home/AccountUpgrade/UpgradePage'
 
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
         setUserId(uid)
         // ...
         console.log('user is signed in');
+        console.log('Your uid is: ' + uid);
       } else {
         // User is signed out
         // ...
@@ -55,7 +56,7 @@ function App() {
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
 
           {/* UPGRADE ACCOUNT ROUTE  */}
-          <Route path='/upgrade' element={<UpgradeForm />} />
+          <Route path='/upgrade' element={<UpgradePage userId={userId} />} />
 
 
         </Routes>
