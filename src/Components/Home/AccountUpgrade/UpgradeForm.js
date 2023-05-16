@@ -3,7 +3,7 @@ import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
 import 'firebase/firestore';
 import app, { auth } from '../../../Firebase/Firebase'
 import { getUserData, updateAccountStatus, notifyUser } from '../../../Firebase/Firebase';
-import { upgradeAccount } from '../../../Firebase/Firestore';
+import { addUser, upgradeAccount } from '../../../Firebase/Firestore';
 import { verifyUserWithTxAPI } from './StateAPIs/P-Z/Tx';
 
 
@@ -184,19 +184,27 @@ function UpgradeForm({ userId }) {
     const handleSubmit__Professional__Account = async (e, stateLicense) => {
         e.preventDefault();
       
-        // const userId = auth.currentUser.uid;
+        // Retrieve user data from Firebase
+        const userData = await getUserData(userId);
+        console.log(userId);
+      
+        // Update the userData object with professional fields
+        const updatedUserData = {
+          ...userData,
+          professionalFirstName: firstName,
+          professionalLastName: lastName,
+          licenseNumber,
+          licenseState: stateLicense,
+          licenseExpiration: expirationDate,
+        };
       
         try {
-          // Retrieve user data from Firebase
-          const userData = await getUserData(userId);
-          console.log(userId);
-      
           // Verify user data with the appropriate verification API based on the selected state
           let verificationResult;
           if (stateLicense === 'Texas') {
-            verificationResult = await verifyUserWithTxAPI(userData);
+            verificationResult = await verifyUserWithTxAPI(updatedUserData);
           } else if (stateLicense === 'Arizona') {
-            // verificationResult = await verifyUserWithAzAPI(userData);
+            // verificationResult = await verifyUserWithAzAPI(updatedUserData);
           } else {
             // Handle other states or provide a default behavior
             // For example, you can set verificationResult to a default value
@@ -209,14 +217,22 @@ function UpgradeForm({ userId }) {
           // Notify the user about the outcome
           await notifyUser(userId, verificationResult.approvalStatus);
       
+          // Call the addUser function with the updated userData
+          await addUser(email, firstName, lastName, 'professional', updatedUserData);
+      
           // Additional logic if needed
           handleUpgrade(); // Move the handleUpgrade() call inside the try block
-      
         } catch (error) {
           console.error('Error handling upgrade request:', error);
           // Handle the error appropriately (e.g., show an error message to the user)
         }
       };
+      
+      
+      
+      
+      
+      
       
   
 

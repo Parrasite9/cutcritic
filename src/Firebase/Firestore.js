@@ -17,7 +17,7 @@ const db = getFirestore(app);
 const auth = getAuth(app)
 
 // THIS ASSIST WITH PUTTING USERS INSIDE OF THE ALL ACCOUNTS COLLECTION IN THE FIRESTORE 
-export async function addUser(email, firstName, lastName, accountType) {
+export async function addUser(email, firstName, lastName, accountType, professionalData = {}) {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
@@ -27,6 +27,7 @@ export async function addUser(email, firstName, lastName, accountType) {
       first: firstName,
       last: lastName,
       accountType: accountType,
+      ...professionalData, // Include the professional fields if available
     };
 
     const batch = writeBatch(db);
@@ -52,6 +53,8 @@ export async function addUser(email, firstName, lastName, accountType) {
     console.error("Error adding document: ", e);
   }
 }
+
+
 
 
 // IF ACC. IS UPGRADED, THIS REMOVES ACCOUNTS FROM STANDARD COLLECTION AND PLACES THEM IN UPGRADED COLLECTION

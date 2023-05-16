@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const verifyUserWithTxAPI = async (userData) => {
   try {
+    console.log('User Data: ', userData);
     // Make an HTTP request to the Texas API
     const response = await axios.get('https://data.texas.gov/resource/7358-krk7.json', {
       params: {
@@ -21,8 +22,8 @@ const verifyUserWithTxAPI = async (userData) => {
     const licenseEntry = licenseData[0];
 
     // Format the user's first and last name
-    const formattedFirstName = userData.firstName.toUpperCase();
-    const formattedLastName = userData.lastName.toUpperCase();
+    const formattedFirstName = userData.professionalFirstName.toUpperCase();
+    const formattedLastName = userData.professionalLastName.toUpperCase();
     const formattedFullName = `${formattedLastName}, ${formattedFirstName}`;
 
     // Extract the first name from the owner's name in the license entry
