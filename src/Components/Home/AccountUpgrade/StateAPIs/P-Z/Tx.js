@@ -39,8 +39,11 @@ const verifyUserWithTxAPI = async (userData) => {
       ownerLastName === formattedLastName &&
       ownerFirstName === formattedFirstName;
 
-    // Return the verification result
-    return isMatch;
+    // After verifying the user, determine the approval status based on your logic
+    const approvalStatus = isMatch ? 'Approved' : 'Not Approved'; // Example: Set the approval status based on the value of isMatch
+
+    // Return the verification result with the isMatch and approvalStatus fields
+    return { isMatch, approvalStatus };
   } catch (error) {
     console.error('Error verifying user with Texas API:', error);
     throw error;

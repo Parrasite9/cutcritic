@@ -79,15 +79,12 @@ const getUserData = async (userId) => {
 };
 
 
-
-
-
 // Update Account Status in Firebase (Professional Upgrades)
 const updateAccountStatus = async (userId, approvalStatus) => {
   try {
     const userDocRef = doc(db, 'All__Accounts', userId);
     await updateDoc(userDocRef, {
-      approvalStatus,
+      approvalStatus: approvalStatus,
     });
   } catch (error) {
     console.error('Error updating account status:', error);
@@ -138,7 +135,8 @@ const notifyUser = async (userId, approvalStatus) => {
     await sendEmail(email, subject, message);
 
     // Example: Update a field in the user document to indicate the approval status
-    await db.collection('All__Accounts').doc(userId).update({
+    const userDocRef = doc(db, 'All__Accounts', userId);
+    await updateDoc(userDocRef, {
       upgradeStatus: approvalStatus,
     });
 
@@ -150,8 +148,17 @@ const notifyUser = async (userId, approvalStatus) => {
   }
 };
 
+const updateUserData = async (userId, userData) => {
+  try {
+    const userDocRef = doc(db, 'All__Accounts', userId);
+    await updateDoc(userDocRef, userData);
+    console.log('User data updated successfully');
+  } catch (error) {
+    console.error('Error updating user data:', error);
+    throw error;
+  }
+};
 
 
-
-export { addUser, db, auth, getUserData, updateAccountStatus, handleUpgradeRequest, notifyUser }
+export { addUser, db, auth, getUserData, updateAccountStatus, handleUpgradeRequest, notifyUser, updateUserData }
 export default app

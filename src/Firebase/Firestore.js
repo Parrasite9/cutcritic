@@ -30,6 +30,7 @@ export async function addUser(email, firstName, lastName, accountType, professio
       ...professionalData, // Include the professional fields if available
     };
 
+    console.log("Updated userData:", userData);
     const batch = writeBatch(db);
 
     // Add the document to "All__Accounts" collection with the user ID as the document ID
@@ -57,8 +58,9 @@ export async function addUser(email, firstName, lastName, accountType, professio
 
 
 
+
 // IF ACC. IS UPGRADED, THIS REMOVES ACCOUNTS FROM STANDARD COLLECTION AND PLACES THEM IN UPGRADED COLLECTION
-export async function upgradeAccount(email) {
+export async function upgradeAccount(email, professionalData = {}) {
   try {
     // Get the document reference from the "StandardAccounts" collection based on the user's email
     const standardAccountsQuery = query(collection(db, "StandardAccounts"), where("email", "==", email));
@@ -70,23 +72,31 @@ export async function upgradeAccount(email) {
       const userData = standardAccountDoc.data();
       const userId = standardAccountDoc.id;
       const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
-      await setDoc(professionalAccountsRef, userData);
 
-      // Delete the user document from the "StandardAccounts" collection
-      await deleteDoc(standardAccountDoc.ref);
+      // Update the professional information in the userData
+      const updatedUserData = {
+        ...userData,
+        accountType: "professional",
+        ...professionalData,
+      };
 
-      // Update the account type in the "All__Accounts" collection
+      await setDoc(professionalAccountsRef, updatedUserData);
+
+      // Update the user document in the "All__Accounts" collection with the professional information
       const allAccountsQuery = query(collection(db, "All__Accounts"), where("email", "==", email));
       const allAccountsSnapshot = await getDocs(allAccountsQuery);
 
       if (!allAccountsSnapshot.empty) {
         const allAccountsDoc = allAccountsSnapshot.docs[0];
-        await updateDoc(allAccountsDoc.ref, { accountType: "professional" });
+        await updateDoc(allAccountsDoc.ref, updatedUserData);
 
-        console.log("Account type successfully updated in the All__Accounts collection");
+        console.log("User document successfully updated in the All__Accounts collection");
       } else {
         console.log("User not found in the All__Accounts collection");
       }
+
+      // Delete the user document from the "StandardAccounts" collection
+      await deleteDoc(standardAccountDoc.ref);
 
       console.log("Account successfully upgraded");
     } else {
@@ -96,6 +106,10 @@ export async function upgradeAccount(email) {
     console.error("Error upgrading account: ", e);
   }
 }
+
+
+
+
 
 
 // BELOW IS THE REQUIRED FUNCTION AND CALL FOR THE DOWNGRADE. THIS NEEDS TO BE PLACED 

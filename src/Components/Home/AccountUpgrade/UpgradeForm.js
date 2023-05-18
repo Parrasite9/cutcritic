@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
 import 'firebase/firestore';
 import app, { auth } from '../../../Firebase/Firebase'
-import { getUserData, updateAccountStatus, notifyUser } from '../../../Firebase/Firebase';
-import { addUser, upgradeAccount } from '../../../Firebase/Firestore';
+import { getUserData, updateAccountStatus, notifyUser, updateUserData } from '../../../Firebase/Firebase';
+import { addUser, db, upgradeAccount } from '../../../Firebase/Firestore';
 import { verifyUserWithTxAPI } from './StateAPIs/P-Z/Tx';
+import { CatchingPokemonSharp } from '@mui/icons-material';
+import { doc, updateDoc } from 'firebase/firestore';
 
 
 function UpgradeForm({ userId }) {
@@ -169,7 +171,7 @@ function UpgradeForm({ userId }) {
   };
 
   // Handle upgrade form submission
-  const handleUpgrade = (email) => {
+  const handleUpgradeREMOVE = (email) => {
     upgradeAccount(email)
         .then(() => {
         console.log("Account upgrade request submitted");
@@ -181,52 +183,107 @@ function UpgradeForm({ userId }) {
         });
     };
 
-    const handleSubmit__Professional__Account = async (e, stateLicense) => {
-        e.preventDefault();
-      
-        // Retrieve user data from Firebase
-        const userData = await getUserData(userId);
-        console.log(userId);
-      
-        // Update the userData object with professional fields
-        const updatedUserData = {
-          ...userData,
-          professionalFirstName: firstName,
-          professionalLastName: lastName,
-          licenseNumber,
-          licenseState: stateLicense,
-          licenseExpiration: expirationDate,
-        };
-      
-        try {
-          // Verify user data with the appropriate verification API based on the selected state
-          let verificationResult;
-          if (stateLicense === 'Texas') {
-            verificationResult = await verifyUserWithTxAPI(updatedUserData);
-          } else if (stateLicense === 'Arizona') {
-            // verificationResult = await verifyUserWithAzAPI(updatedUserData);
-          } else {
-            // Handle other states or provide a default behavior
-            // For example, you can set verificationResult to a default value
-            verificationResult = { approvalStatus: 'Unknown' };
-          }
-      
-          // Update user account status based on the verification result
-          await updateAccountStatus(userId, verificationResult.approvalStatus);
-      
-          // Notify the user about the outcome
-          await notifyUser(userId, verificationResult.approvalStatus);
-      
-          // Call the addUser function with the updated userData
-          await addUser(email, firstName, lastName, 'professional', updatedUserData);
-      
-          // Additional logic if needed
-          handleUpgrade(); // Move the handleUpgrade() call inside the try block
-        } catch (error) {
-          console.error('Error handling upgrade request:', error);
-          // Handle the error appropriately (e.g., show an error message to the user)
-        }
+    const handleUpgrade = (email) => {
+        updateUserData(userId, { accountStatus: 'upgraded' })
+          .then(() => {
+            console.log('Account upgrade request submitted');
+            // Additional logic after successful upgrade request (e.g., display success message)
+          })
+          .catch((error) => {
+            console.error('Error upgrading account: ', error);
+            // Handle the error appropriately (e.g., display an error message to the user)
+          });
       };
+      
+
+const handleSubmit__Professional__Account = async (e, stateLicense) => {
+    e.preventDefault();
+  
+    try {
+      // Retrieve user data from Firebase
+      const userData = await getUserData(userId);
+      console.log(userId);
+      console.log('User Data:', userData);
+  
+      // Update the userData object with professional fields
+      const updatedUserData = {
+        ...userData,
+        professionalFirstName: firstName,
+        professionalLastName: lastName,
+        licenseNumber: licenseNumber,
+        licenseState: stateLicense,
+        licenseExpiration: expirationDate,
+      };
+  
+      // Verify user data with the appropriate verification API based on the selected state
+      let verificationResult;
+      if (stateLicense === 'Texas') {
+        verificationResult = await verifyUserWithTxAPI(updatedUserData);
+      } else if (stateLicense === 'Arizona') {
+        // verificationResult = await verifyUserWithAzAPI(updatedUserData);
+      } else {
+        // Handle other states or provide a default behavior
+        // For example, you can set verificationResult to a default value
+        verificationResult = { approvalStatus: 'Unknown' };
+      }
+  
+      // Update user account status based on the verification result
+      await updateAccountStatus(userId, verificationResult.approvalStatus);
+  
+      // Notify the user about the outcome
+      await notifyUser(userId, verificationResult.approvalStatus);
+  
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+  
+      // Additional logic if needed
+      handleUpgrade(); // Move the handleUpgrade() call inside the try block
+    } catch (error) {
+      console.error('Error handling upgrade request:', error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+
+  const TEST__handleSubmit__Professional__Account = async (e, stateLicense) => {
+    e.preventDefault();
+  
+    try {
+      // Retrieve user data from Firebase
+      const userData = await getUserData(userId);
+      console.log(userId);
+      console.log('User Data:', userData);
+  
+      // Update the userData object with professional fields
+      const updatedUserData = {
+        ...userData,
+        professionalFirstName: firstName,
+        professionalLastName: lastName,
+        licenseNumber: licenseNumber,
+        licenseState: stateLicense,
+        licenseExpiration: expirationDate,
+      };
+  
+      console.log('Updated User Data:', updatedUserData);
+      console.log('userdata again: ', userData);
+  
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+  
+      // Update the Firestore document with the updated userData
+      const userDocRef = doc(db, 'All__Accounts', userId);
+      await updateDoc(userDocRef, updatedUserData);
+  
+      // Additional logic if needed
+      handleUpgrade(email); // Move the handleUpgrade() call inside the try block
+    } catch (error) {
+      console.error('Error handling upgrade request:', error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+  
+  
+  
+      
       
       
       
@@ -250,7 +307,7 @@ function UpgradeForm({ userId }) {
     <div className='upgrade__Form'>
       <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
-        <form onSubmit={(e) => handleSubmit__Professional__Account(e, stateLicense)}>
+        <form onSubmit={(e) => TEST__handleSubmit__Professional__Account(e, stateLicense)}>
 
           {/* FIRST NAME */}
           <div className="upgradeForm__Input">
