@@ -184,7 +184,7 @@ function UpgradeForm({ userId }) {
     };
 
     const handleUpgrade = (email) => {
-        updateUserData(userId, { accountStatus: 'upgraded' })
+        updateUserData(userId, { accountType: 'Professional' })
           .then(() => {
             console.log('Account upgrade request submitted');
             // Additional logic after successful upgrade request (e.g., display success message)
@@ -244,7 +244,7 @@ const handleSubmit__Professional__Account = async (e, stateLicense) => {
     }
   };
 
-  const TEST__handleSubmit__Professional__Account = async (e, stateLicense) => {
+  const TEST__handleSubmit__Professional__Account__WORKING = async (e, stateLicense) => {
     e.preventDefault();
   
     try {
@@ -264,7 +264,6 @@ const handleSubmit__Professional__Account = async (e, stateLicense) => {
       };
   
       console.log('Updated User Data:', updatedUserData);
-      console.log('userdata again: ', userData);
   
       // Call the addUser function with the updated userData
       await addUser(email, firstName, lastName, 'professional', updatedUserData);
@@ -281,7 +280,55 @@ const handleSubmit__Professional__Account = async (e, stateLicense) => {
     }
   };
   
-  
+
+const TEST__handleSubmit__Professional__Account = async (e, stateLicense) => {
+  e.preventDefault();
+
+  try {
+    // Retrieve user data from Firebase
+    const userData = await getUserData(userId);
+    console.log(userId);
+    console.log('User Data:', userData);
+
+    // Update the userData object with professional fields
+    const updatedUserData = {
+      ...userData,
+      professionalFirstName: firstName,
+      professionalLastName: lastName,
+      licenseNumber: licenseNumber,
+      licenseState: stateLicense,
+      licenseExpiration: expirationDate,
+    };
+
+    console.log('Updated User Data:', updatedUserData);
+
+    // Call the verifyUserWithTxAPI function to verify the user
+    const verificationResult = await verifyUserWithTxAPI(updatedUserData);
+    console.log('Verification Result:', verificationResult);
+
+    if (verificationResult.isMatch && verificationResult.approvalStatus === 'Approved') {
+      // User is verified and approved
+
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+
+      // Update the Firestore document with the updated userData
+      const userDocRef = doc(db, 'All__Accounts', userId);
+      await updateDoc(userDocRef, updatedUserData);
+
+      // Additional logic if needed
+      handleUpgrade(email); // Move the handleUpgrade() call inside the try block
+    } else {
+      // User is not verified or not approved
+      console.log('User verification failed or not approved');
+      // Handle the case accordingly (e.g., display an error message to the user)
+    }
+  } catch (error) {
+    console.error('Error handling upgrade request:', error);
+    // Handle the error appropriately (e.g., show an error message to the user)
+  }
+};
+
   
       
       

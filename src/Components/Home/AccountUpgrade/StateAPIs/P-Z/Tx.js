@@ -33,7 +33,6 @@ const verifyUserWithTxAPI = async (userData) => {
 
     // Compare the license data with user data
     const isMatch =
-      licenseEntry.license_type === userData.licenseType &&
       licenseEntry.license_number === userData.licenseNumber &&
       licenseEntry.license_expiration_date_mmddccyy &&
       ownerLastName === formattedLastName &&

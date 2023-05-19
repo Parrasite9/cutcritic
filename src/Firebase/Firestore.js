@@ -62,24 +62,24 @@ export async function addUser(email, firstName, lastName, accountType, professio
 // IF ACC. IS UPGRADED, THIS REMOVES ACCOUNTS FROM STANDARD COLLECTION AND PLACES THEM IN UPGRADED COLLECTION
 export async function upgradeAccount(email, professionalData = {}) {
   try {
-    // Get the document reference from the "StandardAccounts" collection based on the user's email
     const standardAccountsQuery = query(collection(db, "StandardAccounts"), where("email", "==", email));
     const standardAccountsSnapshot = await getDocs(standardAccountsQuery);
 
     if (!standardAccountsSnapshot.empty) {
-      // Move the user document to the "ProfessionalAccounts" collection with the user ID as the document ID
       const standardAccountDoc = standardAccountsSnapshot.docs[0];
-      const userData = standardAccountDoc.data();
       const userId = standardAccountDoc.id;
       const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
 
-      // Update the professional information in the userData
       const updatedUserData = {
-        ...userData,
         accountType: "professional",
         ...professionalData,
       };
 
+      // Update the user document in the "StandardAccounts" collection with the professional information
+      const standardAccountsRef = doc(collection(db, "StandardAccounts"), userId);
+      await updateDoc(standardAccountsRef, updatedUserData);
+
+      // Update the user document in the "ProfessionalAccounts" collection
       await setDoc(professionalAccountsRef, updatedUserData);
 
       // Update the user document in the "All__Accounts" collection with the professional information
@@ -89,7 +89,6 @@ export async function upgradeAccount(email, professionalData = {}) {
       if (!allAccountsSnapshot.empty) {
         const allAccountsDoc = allAccountsSnapshot.docs[0];
         await updateDoc(allAccountsDoc.ref, updatedUserData);
-
         console.log("User document successfully updated in the All__Accounts collection");
       } else {
         console.log("User not found in the All__Accounts collection");
@@ -106,6 +105,8 @@ export async function upgradeAccount(email, professionalData = {}) {
     console.error("Error upgrading account: ", e);
   }
 }
+
+
 
 
 
