@@ -106,7 +106,17 @@ export async function upgradeAccount(email, professionalData = {}) {
   }
 }
 
-
+// MAKES SURE LICENSE NUMBERS LIMITED TO ONE USER AT A TIME 
+export async function checkLicenseNumberExists(licenseNumber) {
+  try {
+    const allAccountsQuery = query(collection(db, "All__Accounts"), where("licenseNumber", "==", licenseNumber));
+    const allAccountsSnapshot = await getDocs(allAccountsQuery);
+    return !allAccountsSnapshot.empty;
+  } catch (error) {
+    console.error('Error checking license number:', error);
+    throw error;
+  }
+}
 
 
 
