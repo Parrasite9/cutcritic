@@ -34,24 +34,30 @@ function Dashboard({userId}) {
       return () => window.removeEventListener('resize', handleLargeViewDash)
   }, [])
 
+  if (userId === null) {
+    // User is not authenticated yet, show loading or login screen
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
     <div className="dashboard__container">
-       <Dash_Sidebar />
-       {largeView && <Dash_Sidebar />}
+      <div className="dashboard__sidebar">
+        <Dash_Sidebar />
+      </div>
+       {/* {largeView && <Dash_Sidebar />} */}
       {/* THE FOLLOWING GRID DISPLAYS AS FOLLOWS 
-    ------------------------
-    |          |            |
-    |   1      |       2    |
-    |__________|____________| 
-    |          |            |
-    |   3      |       4    |
-    |__________|____________| */}
+      ------------------------
+      |          |            |
+      |   1      |       2    |
+      |__________|____________| 
+      |          |            |
+      |   3      |       4    |
+      |__________|____________| */}
       {largeView && (
         <>
           <div className="overview__Grid">
-            <Greeting />
+            <Greeting userId={userId}/>
             <div className="overview__Grid1">
               <div className="grid__Item1">
                 <Overview_Calender />

@@ -3,9 +3,11 @@
     width: 90%;
     height: 75%;
     background-color: red;
-    align-self: center !important;
-    justify-self: center !important;
+    margin: 5% auto;
+    grid-template-columns: 10% 90%; /* Adjust the percentages as needed */
 }
+
+
 
 .overview__Grid {
     margin-left: 12.5%;

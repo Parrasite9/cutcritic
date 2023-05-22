@@ -20,9 +20,11 @@ function Greeting({userId}) {
         }
     }, [])
 
+    console.log('My userId is: ', userId);
+
   return (
     <div className='greeting'>
-      {displayName ? `Hello ${userId}` : 'Hello' }
+      {userId ? `Hello ${userId} test` : 'Hello' }
     </div>
   )
 }
