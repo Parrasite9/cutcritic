@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { query, where, getDocs, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { query, where, getDocs, getDoc, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDkIw6H5rzBkKyiEhEKGZEPpfSbHgSB-5Q",
@@ -29,6 +30,7 @@ export async function addUser(email, firstName, lastName, accountType, professio
       accountType: accountType,
       ...professionalData, // Include the professional fields if available
     };
+
 
     console.log("Updated userData:", userData);
     const batch = writeBatch(db);
@@ -118,7 +120,22 @@ export async function checkLicenseNumberExists(licenseNumber) {
   }
 }
 
-
+// THIS FUNCTION EXPORTS USER DATA FROM THE FIRESTORE TO BE CALLED TO REACT FILES WHEN NEEDED 
+export async function getUserDataFromFirestore(userId) {
+  try {
+    const docRef = doc(db, 'ProfessionalAccounts', userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log('User not found in the ProfessionalAccounts collection');
+      return null;
+    }
+  } catch (e) {
+    console.error('Error fetching user data: ', e);
+    return null;
+  }
+}
 
 
 
