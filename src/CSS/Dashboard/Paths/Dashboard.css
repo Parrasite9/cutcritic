@@ -40,4 +40,11 @@
 .grid__Item5 > h4 {
     grid-column: 1 / -1;
 }
+
+.grid__Item2 > h4,
+.grid__Item3 > h4,
+.grid__Item4 > h4,
+.grid__Item5 > h4 {
+    color: #0072c6;
+}
   
