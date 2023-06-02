@@ -1,5 +1,5 @@
 .dashboard {
-    background-color: aqua;
+    background-color: #b7d6e9;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -10,7 +10,9 @@
     display: grid;
     width: 90%;
     height: 75%;
-    background-color: red;
+    background-color: #f7f7f7;
+    border: 2px solid #a56f3f;
+    border-radius: 8px;
     margin: 5% auto;
     grid-template-columns: 10% 90%; 
 }
@@ -38,13 +40,4 @@
 .grid__Item5 > h4 {
     grid-column: 1 / -1;
 }
-
-/* .dashboard {
-    background-color: tomato;
-    border: 5px solid blue;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  } */
   
