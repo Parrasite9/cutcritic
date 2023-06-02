@@ -34,6 +34,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUserDataFromFirestore } from '../../../Firebase/Firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import '../../../CSS/Dashboard/Paths/Greeting.css'
 
 const Greeting = () => {
   const [userData, setUserData] = useState(null);
@@ -60,7 +61,7 @@ const Greeting = () => {
   console.log(userData);
 
   return (
-    <div>
+    <div className='greeting'>
       {userData && userData.professionalFirstName && (
         <h1>Welcome, {userData.professionalFirstName}!</h1>
       )}
