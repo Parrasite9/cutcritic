@@ -1,10 +1,18 @@
+.dashboard {
+    background-color: aqua;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .dashboard__container {
     display: grid;
     width: 90%;
     height: 75%;
     background-color: red;
     margin: 5% auto;
-    grid-template-columns: 10% 90%; /* Adjust the percentages as needed */
+    grid-template-columns: 10% 90%; 
 }
 
 
@@ -30,3 +38,13 @@
 .grid__Item5 > h4 {
     grid-column: 1 / -1;
 }
+
+/* .dashboard {
+    background-color: tomato;
+    border: 5px solid blue;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */
+  

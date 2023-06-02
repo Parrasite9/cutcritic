@@ -41,60 +41,63 @@ function Dashboard({userId}) {
 
   return (
     <>
-    <div className="dashboard__container">
-      <div className="dashboard__sidebar">
-        <Dash_Sidebar />
-      </div>
-       {/* {largeView && <Dash_Sidebar />} */}
-      {/* THE FOLLOWING GRID DISPLAYS AS FOLLOWS 
-      ------------------------
-      |          |            |
-      |   1      |       2    |
-      |__________|____________| 
-      |          |            |
-      |   3      |       4    |
-      |__________|____________| */}
-      {largeView && (
-        <>
-          <div className="overview__Grid">
-            <Greeting userId={userId}/>
-            <div className="overview__Grid1">
-              <div className="grid__Item1">
-                <Overview_Calender />
-              </div>
+    <div className="dashboard">
+      <div className="dashboard__container">
+        <div className="dashboard__sidebar">
+          <Dash_Sidebar />
+        </div>
+        {/* {largeView && <Dash_Sidebar />} */}
+        {/* THE FOLLOWING GRID DISPLAYS AS FOLLOWS 
+        ------------------------
+        |          |            |
+        |   1      |       2    |
+        |__________|____________| 
+        |          |            |
+        |   3      |       4    |
+        |__________|____________| */}
+        {largeView && (
+          <>
+            <div className="overview__Grid">
+              <Greeting userId={userId}/>
+              <div className="overview__Grid1">
+                <div className="grid__Item1">
+                  <Overview_Calender />
+                </div>
 
-              <div className="grid__Item2">
-                <h4>Todays Appointments</h4>
-                <div>
-                  <p>Lorem ipsum dolor sit amet.</p>
-                  <p>Lorem ipsum dolor sit amet.</p>
-                  <p>Lorem ipsum dolor sit amet.</p>
+                <div className="grid__Item2">
+                  <h4>Todays Appointments</h4>
+                  <div>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                  </div>
                 </div>
               </div>
+
+              <div className="overview__Grid2">
+                <div className="grid__Item3">
+                  <h4>Project Directory</h4>
+                </div>
+                <div className="grid__Item4">
+                  <h4>New Comments</h4>
+                </div>
+                <div className="grid__Item5">
+                  <h4>Top Clients</h4>
+                  <Overview__TopClients />
+                </div>
+
+              </div>
             </div>
 
-            <div className="overview__Grid2">
-              <div className="grid__Item3">
-                <h4>Project Directory</h4>
-              </div>
-              <div className="grid__Item4">
-                <h4>New Comments</h4>
-              </div>
-              <div className="grid__Item5">
-                <h4>Top Clients</h4>
-                <Overview__TopClients />
-              </div>
-
-            </div>
-          </div>
 
 
 
 
-
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
+
     </>
   )
 }
