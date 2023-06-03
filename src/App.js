@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Paths/Dashboard'
 import UpgradePage from './Components/Home/AccountUpgrade/UpgradePage'
+import Dash_AddService from './Components/Dashboard/Paths/Services/Dash_AddService'
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
 
           {/* DASHBOARD ROUTES  */}
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
+          <Route path='/user/:id/dashboard/services' element={<Dash_AddService />} />
 
           {/* UPGRADE ACCOUNT ROUTE  */}
           <Route path='/upgrade' element={<UpgradePage userId={userId} />} />

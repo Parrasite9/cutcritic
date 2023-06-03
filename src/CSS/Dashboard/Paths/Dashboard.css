@@ -10,6 +10,7 @@
     display: grid;
     width: 90%;
     height: 75%;
+    min-height: 68.62vh;
     background-color: #f7f7f7;
     border: 2px solid #a56f3f;
     border-radius: 8px;
@@ -33,18 +34,18 @@
     grid-template-columns: repeat(1, 1fr 1fr 1fr);
 }
 
-.grid__Item2 > div {
+.overview__Grid1 > .grid__Item2 > div {
     padding-left: 5%;
 }
 
-.grid__Item5 > h4 {
+.overview__Grid2 > .grid__Item5 > h4 {
     grid-column: 1 / -1;
 }
 
-.grid__Item2 > h4,
-.grid__Item3 > h4,
-.grid__Item4 > h4,
-.grid__Item5 > h4 {
+.overview__Grid1 > .grid__Item2 > h4,
+.overview__Grid2 > .grid__Item3 > h4,
+.overview__Grid2 > .grid__Item4 > h4,
+.overview__Grid2 > .grid__Item5 > h4 {
     color: #0072c6;
 }
   

@@ -62,7 +62,7 @@ function Dash_Sidebar() {
               </div>
               <div className="logo__And__Link">
                 <AddIcon />
-                <Link to='#'>Add On</Link>
+                <Link to='/user/:id/dashboard/services'>Add Services</Link>
 
               </div>
 
