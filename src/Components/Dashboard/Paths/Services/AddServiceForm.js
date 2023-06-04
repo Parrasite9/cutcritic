@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import '../../../../CSS/Dashboard/Paths/Dash_AddServices.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
+import { addServiceToFirestore } from 'path/to/Firestore.js';
 
-function AddServices() {
+function AddServiceForm() {
 
     const [serviceData, setServiceData] = useState({
         photo: [],
@@ -92,10 +93,22 @@ function AddServices() {
 
       
 
-      const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission, e.g., update Firestore document with serviceData
-        console.log(serviceData);
+    
+        try {
+          // Store the service data in Firestore
+          await addServiceToFirestore(serviceData);
+    
+          // Reset the form after successful submission
+          setServiceData({
+            // Reset form fields
+          });
+        } catch (error) {
+          console.error('Error submitting form: ', error);
+          // Handle error (e.g., display an error message to the user)
+        }
       };
 
   return (
@@ -223,4 +236,4 @@ function AddServices() {
   );
 }
 
-export default AddServices;
+export default AddServiceForm;

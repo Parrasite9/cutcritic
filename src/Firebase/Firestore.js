@@ -138,6 +138,21 @@ export async function getUserDataFromFirestore(userId) {
 }
 
 
+// Function to add service data to Firestore
+export const addServiceToFirestore = async (serviceData) => {
+  try {
+    // Add the service data to All__Accounts collection
+    const allAccountsRef = await addDoc(collection(db, 'All__Accounts'), serviceData);
+    console.log('Service data added to All__Accounts with ID: ', allAccountsRef.id);
+
+    // Add the service data to ProfessionalAccounts collection
+    const professionalAccountsRef = await addDoc(collection(db, 'ProfessionalAccounts'), serviceData);
+    console.log('Service data added to ProfessionalAccounts with ID: ', professionalAccountsRef.id);
+  } catch (error) {
+    console.error('Error adding service data: ', error);
+    throw error; // Re-throw the error to handle it in the AddServices.js file
+  }
+};
 
 
 // BELOW IS THE REQUIRED FUNCTION AND CALL FOR THE DOWNGRADE. THIS NEEDS TO BE PLACED 
