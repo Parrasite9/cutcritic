@@ -54,3 +54,30 @@
     align-self: center; 
     border-radius: 15px;
 }
+
+.displayServices {
+    border: 5px solid red;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto 1fr;
+    height: 85%;
+    align-self: center;
+    margin: 0 15%;
+}
+
+.your__Services__Header {
+    border: 5px solid blue;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr 1fr);
+}
+
+.your__Services__List {
+    border: 5px solid green;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(1, 3fr 3fr 3fr 3fr);
+}
+
+.service__Item {
+    border: 5px solid purple;
+}

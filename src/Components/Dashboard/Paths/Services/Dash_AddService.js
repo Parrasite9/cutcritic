@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../../../CSS/Dashboard/Paths/Dash_AddServices.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 function AddServices() {
 
@@ -55,18 +56,49 @@ function AddServices() {
 
         {/* SERVICES CONDITIONAL */}
         {displayServices && (
-          <div className="displayServices">
-            <h1>THIS IS SERVICES</h1>
-            <button onClick={showSelectService}>RETURN</button>
-          </div>
+          <>
+            <div className="displayServices">
+              <div className="your__Services__Header">
+                <h1>YOUR SERVICES</h1>
+                <button onClick={showSelectService}>RETURN</button>
+              </div>
+
+              <div className="your__Services__List">
+                {/* YOUR SERVICE LIST WILL GO HERE */}
+                <div className="service__Item service1">1</div>
+                <div className="service__Item service2">2</div>
+                <div className="service__Item service3">3</div>
+                <div className="service__Item service4">4</div>
+                <div className="service__Item service5">5</div>
+
+                <div className="service__Item">
+                  <AddCircleOutlineOutlinedIcon fontSize='large' />
+                  <h3>Add Service</h3>
+                </div>
+              </div>
+            </div>
+          </>
         )}
 
         {/* UPSELL CONDITIONAL  */}
         {displayUpsell && (
+          <>
           <div className="displayServices">
-            <h1>THIS IS UPSELL</h1>
-            <button onClick={showSelectService}>RETURN</button>
+            <div className="your__Services__Header">
+              <h1>YOUR UPSELL SERVICES</h1>
+              <button onClick={showSelectService}>RETURN</button>
+            </div>
+
+            <div className="your__Services__List">
+              {/* YOUR SERVICE LIST WILL GO HERE */}
+              <div className="service__Item service1">1</div>
+              <div className="service__Item service2">2</div>
+              <div className="service__Item service3">3</div>
+              <div className="service__Item service4">4</div>
+              <div className="service__Item service5">5</div>
+            </div>
           </div>
+        </>
         )}
 
       </div>
