@@ -4,30 +4,42 @@ import '../../../../CSS/Dashboard/Paths/Dash_AddServices.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import AddServiceForm from './AddServiceForm';
 
 function AddServices() {
 
   const [selectService, setSelectService] = useState(true)
   const [displayServices, setDisplayServices] = useState(false)
   const [displayUpsell, setDisplayUpsell] = useState(false)
+  const [displayServiceForm, setDisplayServiceForm] = useState(false)
 
 
   const showSelectService = () => {
     setDisplayServices(false)
     setDisplayUpsell(false)
     setSelectService(true)
+    setDisplayServiceForm(false)
   }
 
   const showServices = () => {
     setDisplayServices(true)
     setDisplayUpsell(false)
     setSelectService(false)
+    setDisplayServiceForm(false)
   }
 
   const showUpsell = () => {
     setDisplayServices(false)
     setDisplayUpsell(true)
     setSelectService(false)
+    setDisplayServiceForm(false)
+  }
+
+  const showServiceForm = () => {
+    setDisplayServices(false)
+    setDisplayUpsell(false)
+    setSelectService(false)
+    setDisplayServiceForm(true)
   }
 
 
@@ -71,10 +83,13 @@ function AddServices() {
                 <div className="service__Item service4">4</div>
                 <div className="service__Item service5">5</div>
 
-                <div className="service__Item">
-                  <AddCircleOutlineOutlinedIcon fontSize='large' />
-                  <h3>Add Service</h3>
-                </div>
+                <Link className='service__Item' to="/user/:id/dashboard/services/service_form">
+                  <div className="add__Form">
+                    <AddCircleOutlineOutlinedIcon fontSize="large" />
+                    <h3>Add Service</h3>
+                  </div>
+                </Link>
+
               </div>
             </div>
           </>
@@ -100,6 +115,10 @@ function AddServices() {
           </div>
         </>
         )}
+
+        {/* {displayServiceForm && (
+          <AddServiceForm />
+        )} */}
 
       </div>
     </div>

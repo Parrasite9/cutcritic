@@ -81,3 +81,7 @@
 .service__Item {
     border: 5px solid purple;
 }
+
+.add__Form {
+    cursor: pointer;
+}

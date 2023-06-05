@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../../../CSS/Dashboard/Paths/Dash_AddServices.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
-import { addServiceToFirestore } from 'path/to/Firestore.js';
+import { addServiceToFirestore } from '../../../../Firebase/Firestore';
 
 function AddServiceForm() {
 
