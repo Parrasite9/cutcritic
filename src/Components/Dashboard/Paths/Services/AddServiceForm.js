@@ -5,7 +5,7 @@ import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
 import { addServiceToFirestore, db } from '../../../../Firebase/Firestore';
 import { useEffect } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getUserData } from '../../../../Firebase/Firebase';
 
 function AddServiceForm() {
@@ -122,31 +122,40 @@ function AddServiceForm() {
     };
 
 
-    const handleSubmit = async (e, userId) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
       
         try {
-            const userData = await getUserData(userId);
-
-          // Merge the existing user data with the new service data
-          const updatedUserData = {
-            ...userData,
-            serviceData: serviceData,
-          };
-      
-          // Update the Firestore document with the updated user data
           const userDocRef = doc(db, 'All__Accounts', userId);
-          await updateDoc(userDocRef, updatedUserData);
+          const userDocSnapshot = await getDoc(userDocRef);
       
-          // Reset the form after successful submission
-          setServiceData({
-            // Reset form fields
-          });
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+      
+            // Merge the existing user data with the new service data
+            const updatedUserData = {
+              ...userData,
+              serviceData: serviceData,
+            };
+      
+            // Update the Firestore document with the updated user data
+            await updateDoc(userDocRef, updatedUserData);
+      
+            // Reset the form after successful submission
+            setServiceData({
+              // Reset form fields
+            });
+      
+            console.log('Service data updated in All__Accounts');
+          } else {
+            console.log('User document not found');
+          }
         } catch (error) {
           console.error('Error submitting form: ', error);
           // Handle error (e.g., display an error message to the user)
         }
       };
+      
       
       
       
