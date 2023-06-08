@@ -56,8 +56,8 @@ function App() {
 
           {/* DASHBOARD ROUTES  */}
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
-          <Route path='/user/:id/dashboard/services' element={<Dash_AddService />} />
-          <Route path='/user/:id/dashboard/services/service_form' element={<AddServiceForm />} />
+          <Route path='/user/:id/dashboard/services' element={<Dash_AddService userId={userId} />} />
+          <Route path='/user/:id/dashboard/services/service_form' element={<AddServiceForm userId={userId} />} />
 
           {/* UPGRADE ACCOUNT ROUTE  */}
           <Route path='/upgrade' element={<UpgradePage userId={userId} />} />

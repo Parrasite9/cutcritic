@@ -138,21 +138,37 @@ export async function getUserDataFromFirestore(userId) {
 }
 
 
-// Function to add service data to Firestore
+// Function to update service data in Firestore
 export const addServiceToFirestore = async (serviceData) => {
+  const user = auth.currentUser;
+  const userId = user.uid;
+  console.log('User ID:', userId);
   try {
-    // Add the service data to All__Accounts collection
-    const allAccountsRef = await addDoc(collection(db, 'All__Accounts'), serviceData);
-    console.log('Service data added to All__Accounts with ID: ', allAccountsRef.id);
+    const allAccountsDocRef = doc(collection(db, 'All__Accounts'), userId);
+    const professionalAccountsRef = doc(collection(db, 'ProfessionalAccounts'), userId);
 
-    // Add the service data to ProfessionalAccounts collection
-    const professionalAccountsRef = await addDoc(collection(db, 'ProfessionalAccounts'), serviceData);
-    console.log('Service data added to ProfessionalAccounts with ID: ', professionalAccountsRef.id);
+    console.log('Service Data:', serviceData);
+    console.log('All__Accounts Document Reference:', allAccountsDocRef.path);
+    console.log('ProfessionalAccounts Document Reference:', professionalAccountsRef.path);
+
+    await updateDoc(allAccountsDocRef, serviceData);
+    console.log('Service data updated in All__Accounts');
+
+    await updateDoc(professionalAccountsRef, serviceData);
+    console.log('Service data updated in ProfessionalAccounts');
   } catch (error) {
-    console.error('Error adding service data: ', error);
-    throw error; // Re-throw the error to handle it in the AddServices.js file
+    console.error('Error updating service data:', error);
+    throw error;
   }
 };
+
+
+
+
+
+
+
+
 
 
 // BELOW IS THE REQUIRED FUNCTION AND CALL FOR THE DOWNGRADE. THIS NEEDS TO BE PLACED 

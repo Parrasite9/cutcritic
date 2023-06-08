@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import '../../../../CSS/Dashboard/Paths/AddServiceForm.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
-import { addServiceToFirestore } from '../../../../Firebase/Firestore';
+import { addServiceToFirestore, db } from '../../../../Firebase/Firestore';
 import { useEffect } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { getUserData } from '../../../../Firebase/Firebase';
 
 function AddServiceForm() {
+    const {id} = useParams();
+    const userId = id;
+    // const location = useLocation();
+    // const userId = location.userId;
 
     const [zipError, setZipError] = useState('')
     const [description, setDescription] = useState('')
@@ -40,6 +46,8 @@ function AddServiceForm() {
         const remainingCharacters = 300 - description.length;
         setCharacterCount(remainingCharacters)
     }, [description])
+
+    console.log(userId);
 
       // THIS FUNCTION IS INTENDED FOR USERS TO BE ABLE TO LEAVE REVIEW 
       // ON THE SERVICE. NEED TO FIND A WAY TO IMPLEMENT THIS. 
@@ -114,13 +122,22 @@ function AddServiceForm() {
     };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, userId) => {
         e.preventDefault();
-    
+      
         try {
-          // Store the service data in Firestore
-          await addServiceToFirestore(serviceData);
-    
+            const userData = await getUserData(userId);
+
+          // Merge the existing user data with the new service data
+          const updatedUserData = {
+            ...userData,
+            serviceData: serviceData,
+          };
+      
+          // Update the Firestore document with the updated user data
+          const userDocRef = doc(db, 'All__Accounts', userId);
+          await updateDoc(userDocRef, updatedUserData);
+      
           // Reset the form after successful submission
           setServiceData({
             // Reset form fields
@@ -130,6 +147,10 @@ function AddServiceForm() {
           // Handle error (e.g., display an error message to the user)
         }
       };
+      
+      
+      
+      
 
     //   MAKES LOCATION INPUT A 5 DIGIT ZIPCODE ONLY 
     const handleNumericInput = (event) => {

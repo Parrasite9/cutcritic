@@ -6,7 +6,7 @@ import Dash_Sidebar from '../../Dash_Sidebar';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AddServiceForm from './AddServiceForm';
 
-function AddServices() {
+function AddServices({userId}) {
 
   const [selectService, setSelectService] = useState(true)
   const [displayServices, setDisplayServices] = useState(false)
@@ -42,6 +42,7 @@ function AddServices() {
     setDisplayServiceForm(true)
   }
 
+  console.log(userId);
 
 
   return (
@@ -50,7 +51,7 @@ function AddServices() {
         <div className="dashboard__sidebar">
           <Dash_Sidebar />
         </div>
-
+        
         {/* SERVICES OR UPSELL (SELECT ONE) */}
         {selectService && (
           <div className="service__and__upsell__container">
@@ -83,12 +84,14 @@ function AddServices() {
                 <div className="service__Item service4">4</div>
                 <div className="service__Item service5">5</div>
 
-                <Link className='service__Item' to="/user/:id/dashboard/services/service_form">
-                  <div className="add__Form">
-                    <AddCircleOutlineOutlinedIcon fontSize="large" />
-                    <h3>Add Service</h3>
-                  </div>
-                </Link>
+                <Link className='service__Item' to={`/user/${userId}/dashboard/services/service_form`}>
+  <div className="add__Form">
+    <AddCircleOutlineOutlinedIcon fontSize="large" />
+    <h3>Add Service</h3>
+  </div>
+</Link>
+
+
 
               </div>
             </div>
