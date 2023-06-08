@@ -7,8 +7,9 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import CalenderMonthIcon from '@mui/icons-material/CalendarMonthOutlined';
+import HomeIcon from '@mui/icons-material/HomeOutlined';
+import AddIcon from '@mui/icons-material/Add';
 
 function Dash_Sidebar() {
     const [showSidebar, setShowSidebar] = useState(false)
@@ -42,11 +43,11 @@ function Dash_Sidebar() {
           <div className="dashboard__Sidebar">
             <div className="top__Nav">
               <div className="logo__And__Link">
-                <HomeOutlinedIcon />
-                <Link to='#'>Overview</Link>
+                <HomeIcon className='dash__Icon' />
+                <Link to='/user/:id/dashboard'>Overview</Link>
               </div>
               <div className="logo__And__Link">
-                <CalendarMonthOutlinedIcon />
+                <CalenderMonthIcon />
                 <Link to='/user/:id/dashboard/bookings'>Bookings</Link>
 
               </div>
@@ -60,7 +61,8 @@ function Dash_Sidebar() {
                 <Link to='#'>Reports</Link>
               </div>
               <div className="logo__And__Link">
-                <Link to='#'>Add On</Link>
+                <AddIcon />
+                <Link to='/user/:id/dashboard/services'>Add Services</Link>
 
               </div>
 

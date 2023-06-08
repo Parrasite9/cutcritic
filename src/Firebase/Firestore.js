@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { query, where, getDocs, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { query, where, getDocs, getDoc, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDkIw6H5rzBkKyiEhEKGZEPpfSbHgSB-5Q",
@@ -29,6 +30,7 @@ export async function addUser(email, firstName, lastName, accountType, professio
       accountType: accountType,
       ...professionalData, // Include the professional fields if available
     };
+
 
     console.log("Updated userData:", userData);
     const batch = writeBatch(db);
@@ -105,6 +107,62 @@ export async function upgradeAccount(email, professionalData = {}) {
     console.error("Error upgrading account: ", e);
   }
 }
+
+// MAKES SURE LICENSE NUMBERS LIMITED TO ONE USER AT A TIME 
+export async function checkLicenseNumberExists(licenseNumber) {
+  try {
+    const allAccountsQuery = query(collection(db, "All__Accounts"), where("licenseNumber", "==", licenseNumber));
+    const allAccountsSnapshot = await getDocs(allAccountsQuery);
+    return !allAccountsSnapshot.empty;
+  } catch (error) {
+    console.error('Error checking license number:', error);
+    throw error;
+  }
+}
+
+// THIS FUNCTION EXPORTS USER DATA FROM THE FIRESTORE TO BE CALLED TO REACT FILES WHEN NEEDED 
+export async function getUserDataFromFirestore(userId) {
+  try {
+    const docRef = doc(db, 'ProfessionalAccounts', userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log('User not found in the ProfessionalAccounts collection');
+      return null;
+    }
+  } catch (e) {
+    console.error('Error fetching user data: ', e);
+    return null;
+  }
+}
+
+
+// Function to update service data in Firestore
+export const addServiceToFirestore = async (serviceData) => {
+  const user = auth.currentUser;
+  const userId = user.uid;
+  console.log('User ID:', userId);
+  try {
+    const allAccountsDocRef = doc(collection(db, 'All__Accounts'), userId);
+    const professionalAccountsRef = doc(collection(db, 'ProfessionalAccounts'), userId);
+
+    console.log('Service Data:', serviceData);
+    console.log('All__Accounts Document Reference:', allAccountsDocRef.path);
+    console.log('ProfessionalAccounts Document Reference:', professionalAccountsRef.path);
+
+    await updateDoc(allAccountsDocRef, serviceData);
+    console.log('Service data updated in All__Accounts');
+
+    await updateDoc(professionalAccountsRef, serviceData);
+    console.log('Service data updated in ProfessionalAccounts');
+  } catch (error) {
+    console.error('Error updating service data:', error);
+    throw error;
+  }
+};
+
+
 
 
 

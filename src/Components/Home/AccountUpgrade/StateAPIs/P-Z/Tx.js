@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { checkLicenseNumberExists } from '../../../../../Firebase/Firestore';
 
 const verifyUserWithTxAPI = async (userData) => {
   try {
@@ -37,6 +38,14 @@ const verifyUserWithTxAPI = async (userData) => {
       licenseEntry.license_expiration_date_mmddccyy &&
       ownerLastName === formattedLastName &&
       ownerFirstName === formattedFirstName;
+
+    // Check if the license number already exists in the database
+    const licenseNumberExists = await checkLicenseNumberExists(userData.licenseNumber);
+
+    // If the license number exists, set isMatch to false to deny the upgrade
+    if (licenseNumberExists) {
+      return { isMatch: false, approvalStatus: 'Not Approved, License In Use' };
+    }
 
     // After verifying the user, determine the approval status based on your logic
     const approvalStatus = isMatch ? 'Approved' : 'Not Approved'; // Example: Set the approval status based on the value of isMatch
