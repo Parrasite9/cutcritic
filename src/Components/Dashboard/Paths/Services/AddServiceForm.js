@@ -139,14 +139,17 @@ function AddServiceForm() {
             };
       
             // Update the Firestore document with the updated user data
-            await updateDoc(userDocRef, updatedUserData);
+            await Promise.all([
+              updateDoc(userDocRef, updatedUserData),
+              updateDoc(doc(db, 'ProfessionalAccounts', userId), updatedUserData)
+            ]);
       
             // Reset the form after successful submission
             setServiceData({
               // Reset form fields
             });
       
-            console.log('Service data updated in All__Accounts');
+            console.log('Service data updated in All__Accounts and ProfessionalAccounts');
           } else {
             console.log('User document not found');
           }
@@ -155,6 +158,7 @@ function AddServiceForm() {
           // Handle error (e.g., display an error message to the user)
         }
       };
+      
       
       
       
