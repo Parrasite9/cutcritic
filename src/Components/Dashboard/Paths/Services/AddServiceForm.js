@@ -7,6 +7,8 @@ import { addServiceToFirestore, db } from '../../../../Firebase/Firestore';
 import { useEffect } from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getUserData } from '../../../../Firebase/Firebase';
+import { storage } from '../../../../Firebase/FireStorage'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 function AddServiceForm() {
     const {id} = useParams();
@@ -47,7 +49,6 @@ function AddServiceForm() {
         setCharacterCount(remainingCharacters)
     }, [description])
 
-    console.log(userId);
 
       // THIS FUNCTION IS INTENDED FOR USERS TO BE ABLE TO LEAVE REVIEW 
       // ON THE SERVICE. NEED TO FIND A WAY TO IMPLEMENT THIS. 
@@ -66,63 +67,33 @@ function AddServiceForm() {
     const MAX_IMAGES_PER_UPSELL = 3;
     
     const handleChange = (e) => {
-      const { name, value, files } = e.target;
-      setDescription(value)
-    
-      if (name === 'photo') {
-        if (files.length === 1) {
+        const { name, value, files } = e.target;
+      
+        if (name === 'photo') {
+          const photoFiles = Array.from(files).slice(0, MAX_IMAGES_PER_SERVICE);
           setServiceData((prevData) => ({
             ...prevData,
-            [name]: files[0],
+            photo: photoFiles,
           }));
-        } else if (files.length > 1) {
-          const limitedFiles = Array.from(files).slice(0, MAX_IMAGES_PER_SERVICE);
-    
-          setServiceData((prevData) => ({
-            ...prevData,
-            [name]: limitedFiles,
-          }));
-        }
-      } else if (name === 'upsellOpportunities') {
-        const updatedUpsellOpportunities = serviceData.upsellOpportunities.map(
-          (opportunity, index) => {
-            if (index.toString() === value) {
-              const limitedFiles = Array.from(files).slice(0, MAX_IMAGES_PER_UPSELL);
-    
-              return {
-                ...opportunity,
-                photos: limitedFiles,
-              };
-            }
-            return opportunity;
-          }
-        );
-    
-        setServiceData((prevData) => ({
-          ...prevData,
-          upsellOpportunities: updatedUpsellOpportunities,
-        }));
-      } else if (name === 'location') {
-        const zipCode = value.replace(/\D/g, ''); // Remove non-digit characters
-        if (zipCode.length !== 5) {
-          setZipError('Your zipcode must be 5 digits long');
         } else {
-          setZipError('');
+          setServiceData((prevData) => ({
+            ...prevData,
+            [name]: value,
+          }));
         }
-        setServiceData((prevData) => ({
-          ...prevData,
-          [name]: zipCode,
-        }));
-      } else {
-        setServiceData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      }
-    };
+      };
+      
+    
 
-
-    const handleSubmit = async (e) => {
+    const generateUniqueServiceId = () => {
+        // Generate a random ID using a combination of timestamp and random numbers
+        const timestamp = Date.now().toString(36);
+        const randomChars = Math.random().toString(36).substr(2, 5);
+        const uniqueId = timestamp + randomChars;
+        return uniqueId;
+      };
+      
+      const handleSubmit = async (e) => {
         e.preventDefault();
       
         try {
@@ -131,25 +102,69 @@ function AddServiceForm() {
       
           if (userDocSnapshot.exists()) {
             const userData = userDocSnapshot.data();
+            const existingServices = userData.services || [];
       
-            // Merge the existing user data with the new service data
-            const updatedUserData = {
-              ...userData,
-              serviceData: serviceData,
-            };
+            if (existingServices.length < 10) {
+              // Create a new service object
+              const newService = {
+                id: generateUniqueServiceId(), // Function to generate a unique service ID
+                serviceData: serviceData,
+              };
       
-            // Update the Firestore document with the updated user data
-            await Promise.all([
-              updateDoc(userDocRef, updatedUserData),
-              updateDoc(doc(db, 'ProfessionalAccounts', userId), updatedUserData)
-            ]);
+              // Add the new service to the existing services array
+              const updatedServices = [...existingServices, newService];
       
-            // Reset the form after successful submission
-            setServiceData({
-              // Reset form fields
-            });
+              // Merge the existing user data with the updated services array
+              const updatedUserData = {
+                ...userData,
+                services: updatedServices,
+              };
       
-            console.log('Service data updated in All__Accounts and ProfessionalAccounts');
+              // Upload the photo to Firebase Storage
+              if (serviceData.photo.length > 0) {
+                const file = serviceData.photo[0]; // Assuming you only allow uploading one image
+                const storageRef = ref(storage, `users/${userId}/services/${newService.id}`);
+                await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(storageRef);
+                newService.serviceData.photo = [downloadURL];
+              }
+      
+              // Update the Firestore document with the updated user data
+              await Promise.all([
+                updateDoc(userDocRef, updatedUserData),
+                updateDoc(doc(db, 'ProfessionalAccounts', userId), updatedUserData),
+              ]);
+      
+              // Reset the form after successful submission
+              setServiceData({
+                photo: [],
+                title: '',
+                description: '',
+                price: 0,
+                upsellOpportunities: [
+                  {
+                    photos: [],
+                    description: '',
+                    price: 0,
+                  },
+                ],
+                category: '',
+                duration: '',
+                availability: '',
+                location: '',
+                reviews: [
+                  {
+                    rating: 0,
+                    description: '',
+                  },
+                ],
+                additionalOptions: [],
+              });
+      
+              console.log('Service added successfully');
+            } else {
+              console.log('Maximum number of services reached');
+            }
           } else {
             console.log('User document not found');
           }
@@ -158,6 +173,7 @@ function AddServiceForm() {
           // Handle error (e.g., display an error message to the user)
         }
       };
+      
       
       
       
