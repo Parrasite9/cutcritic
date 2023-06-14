@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../../../CSS/Dashboard/Paths/Dash_AddServices.css'
 import '../../../../CSS/Dashboard/Paths/Dashboard.css'
 import Dash_Sidebar from '../../Dash_Sidebar';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AddServiceForm from './AddServiceForm';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
+import { storage, ref, getDownloadURL } from 'firebase/storage';
+import { db } from '../../../../Firebase/Firestore';
+import { generateUniqueServiceId } from './AddServiceForm'
 
 function AddServices({userId}) {
 
@@ -12,6 +17,7 @@ function AddServices({userId}) {
   const [displayServices, setDisplayServices] = useState(false)
   const [displayUpsell, setDisplayUpsell] = useState(false)
   const [displayServiceForm, setDisplayServiceForm] = useState(false)
+  const [serviceList, setServiceList] = useState([]);
 
 
   const showSelectService = () => {
@@ -42,8 +48,32 @@ function AddServices({userId}) {
     setDisplayServiceForm(true)
   }
 
+  const uniqueId = generateUniqueServiceId()
+
   console.log(userId);
 
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        // Fetch the user's Firestore document
+        const userDocRef = doc(db, 'All__Accounts', userId);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          const services = userData.services || [];
+          setServiceList(services);
+        } else {
+          console.log('User document not found');
+        }
+      } catch (error) {
+        console.error('Error fetching services: ', error);
+        // Handle error (e.g., display an error message to the user)
+      }
+    };
+
+    fetchServices();
+  }, [userId]);
 
   return (
     <div className="dashboard">
@@ -77,22 +107,30 @@ function AddServices({userId}) {
               </div>
 
               <div className="your__Services__List">
-                {/* YOUR SERVICE LIST WILL GO HERE */}
-                <div className="service__Item service1">1</div>
-                <div className="service__Item service2">2</div>
-                <div className="service__Item service3">3</div>
-                <div className="service__Item service4">4</div>
-                <div className="service__Item service5">5</div>
+
+            {/* RENDER SERVICE LIST */}
+            {serviceList.length > 0 ? (
+                serviceList.map((service, index) => (
+                  <Link
+                    key={index}
+                    to={`/user/${userId}/dashboard/services/${service.uniqueId}`}
+                    className="service__Item"
+                  >
+                    {/* <img src={service.serviceData.photo[0]} alt="service" /> */}
+                    <h3>{service.serviceData.title}</h3>
+                    <p>Price: {service.serviceData.price}</p>
+                  </Link>
+                ))
+                ) : (
+                <p>No services found.</p>
+                )}
 
                 <Link className='service__Item' to={`/user/${userId}/dashboard/services/service_form`}>
-  <div className="add__Form">
-    <AddCircleOutlineOutlinedIcon fontSize="large" />
-    <h3>Add Service</h3>
-  </div>
-</Link>
-
-
-
+                  <div className="add__Form">
+                    <AddCircleOutlineOutlinedIcon fontSize="large" />
+                    <h3>Add Service</h3>
+                  </div>
+                </Link>
               </div>
             </div>
           </>
