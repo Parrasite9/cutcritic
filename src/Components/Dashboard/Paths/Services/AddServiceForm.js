@@ -325,4 +325,4 @@ function AddServiceForm() {
   );
 }
 
-export default {AddServiceForm, generateUniqueServiceId};
+export default AddServiceForm;

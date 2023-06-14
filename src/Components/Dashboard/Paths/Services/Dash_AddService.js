@@ -9,7 +9,6 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { doc, getDoc } from 'firebase/firestore';
 import { storage, ref, getDownloadURL } from 'firebase/storage';
 import { db } from '../../../../Firebase/Firestore';
-import { generateUniqueServiceId } from './AddServiceForm'
 
 function AddServices({userId}) {
 
@@ -48,7 +47,7 @@ function AddServices({userId}) {
     setDisplayServiceForm(true)
   }
 
-  const uniqueId = generateUniqueServiceId()
+  // const uniqueId = AddServiceForm.generateUniqueServiceId()
 
   console.log(userId);
 
@@ -111,15 +110,17 @@ function AddServices({userId}) {
             {/* RENDER SERVICE LIST */}
             {serviceList.length > 0 ? (
                 serviceList.map((service, index) => (
-                  <Link
-                    key={index}
-                    to={`/user/${userId}/dashboard/services/${service.uniqueId}`}
-                    className="service__Item"
-                  >
-                    {/* <img src={service.serviceData.photo[0]} alt="service" /> */}
-                    <h3>{service.serviceData.title}</h3>
-                    <p>Price: {service.serviceData.price}</p>
-                  </Link>
+<Link
+  key={index}
+  to={`/user/${userId}/dashboard/services/${service.uniqueId}`}
+  className="service__Item"
+  state={{ service }} // Pass the service object in the state
+>
+  {/* <img src={service.serviceData.photo[0]} alt="service" /> */}
+  <h3>{service.serviceData.title}</h3>
+  <p>Price: {service.serviceData.price}</p>
+</Link>
+
                 ))
                 ) : (
                 <p>No services found.</p>
