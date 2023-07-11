@@ -1,12 +1,12 @@
 .dashboard__Sidebar {
-    height: 100%;
+    height: 68.57%;
     width: 10%;
     position: fixed;
     z-index: 1;
-    top: 0;
-    left: 0;
+    /* top: 0; */
+    /* left: 0; */
     overflow-x: hidden;
-    background-color: aqua;
+    background-color: #0072c6;
     display: flex;
     flex-direction: column;
     /* justify-content: space-between; */
@@ -30,11 +30,17 @@
     display: flex;
     align-items: center;
     padding-bottom: 15%;
-
+    padding-left: 10%;
+    color: #f7f7f7;
 }
 
 .logo__And__Link > a {
     text-decoration: none;
     font-size: .9em; /* CHANGE THIS TO MAKE IT LOOK GOOD.*/
     padding-left: 5%;
+    color: #f7f7f7;
+}
+
+.logo__And__Link > a:active {
+    color: #68c1a9 !important;
 }

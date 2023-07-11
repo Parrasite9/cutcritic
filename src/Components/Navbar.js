@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import GeoLocation from './GeoLocation';
-
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 function Navbar({userId}) {
 
@@ -19,7 +19,8 @@ function Navbar({userId}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   // CURRENT MOBILE STATE 
   const [isMobile, setIsMobile] = useState(true)
-
+  // CHECKS TO SEE IF ACCOUNT HAS BEEN UPGRADED
+  const [hasUpgraded, setHasUpgraded] = useState(false);
 
   // Create a function to toggle the menu open and closed
   const toggleMenu = () => {
@@ -76,8 +77,27 @@ function Navbar({userId}) {
       }
     });
   }, []);
-  
 
+  //CHECKS TO SEE IF ACCOUNT HAS BEEN UPGRADED ALREADY
+  useEffect(() => {
+    const checkUpgradeStatus = async () => {
+      // Get the Firestore instance
+      const firestore = getFirestore();
+  
+      // Specify the collection and document to check
+      const collectionRef = doc(firestore, 'ProfessionalAccounts', userId);
+  
+      // Check if the document exists in the "professional_accounts" collection
+      const documentSnapshot = await getDoc(collectionRef);
+  
+      // Set the upgrade status based on the existence of the document
+      setHasUpgraded(documentSnapshot.exists());
+    };
+  
+    // Call the function to check the upgrade status when the component mounts
+    checkUpgradeStatus();
+  }, [userId]);
+  
   return (
     <div className='navbar'>
       <div className="navbar__Container">       
@@ -162,7 +182,11 @@ function Navbar({userId}) {
                       <Link to='#' className="navlink__Item3">About</Link>
                       <Link to={`/user/:id/dashboard`} className="navlink__Item4">My Dashboard</Link>
                       <Link to='#' className="navlink__Item5" onClick={handleLogout}>Logout</Link>
-                      <Link to={`/upgrade`} className="navlink__Item6">Upgrade</Link>
+
+                        {/* CHECK IF USER HAS UPGRADED */}
+                        {hasUpgraded ? null : (
+                          <Link to={`/upgrade`} className="navlink__Item6">Upgrade</Link>
+                        )}
                     </>
                   ) : (
                     // IS THE USER CURRENTLY LOGGED OUT? 

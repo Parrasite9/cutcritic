@@ -9,7 +9,10 @@ import Booking from './Components/Booking'
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from './Components/Dashboard/Paths/Dashboard'
-import UpgradeForm from './Components/Home/AccountUpgrade/UpgradeForm'
+import UpgradePage from './Components/Home/AccountUpgrade/UpgradePage'
+import Dash_AddService from './Components/Dashboard/Paths/Services/Dash_AddService'
+import AddServiceForm from './Components/Dashboard/Paths/Services/AddServiceForm'
+import ServiceDetails from './Components/Dashboard/Paths/Services/ServiceDetails'
 
 
 function App() {
@@ -31,6 +34,7 @@ function App() {
         setUserId(uid)
         // ...
         console.log('user is signed in');
+        console.log('Your uid is: ' + uid);
       } else {
         // User is signed out
         // ...
@@ -45,7 +49,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* MAIN ROUTES  */}
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Home userId={userId} />} />
           <Route path='/booking' element={<Booking />} />
           <Route path='/user/:id/dashboard' element={<Dashboard userId={userId} />} />
 
@@ -53,9 +57,12 @@ function App() {
 
           {/* DASHBOARD ROUTES  */}
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
+          <Route path='/user/:id/dashboard/services' element={<Dash_AddService userId={userId} />} />
+          <Route path='/user/:id/dashboard/services/service_form' element={<AddServiceForm userId={userId} />} />
+          <Route path='/user/:id/dashboard/services/:serviceId' element={<ServiceDetails userId={userId} />} />
 
           {/* UPGRADE ACCOUNT ROUTE  */}
-          <Route path='/upgrade' element={<UpgradeForm />} />
+          <Route path='/upgrade' element={<UpgradePage userId={userId} />} />
 
 
         </Routes>

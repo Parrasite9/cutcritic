@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './../../../CSS/Home/AccountUpgrade/UpgradeForm.css'
+import 'firebase/firestore';
+import app, { auth } from '../../../Firebase/Firebase'
+import { getUserData, updateAccountStatus, notifyUser, updateUserData } from '../../../Firebase/Firebase';
+import { addUser, db, upgradeAccount } from '../../../Firebase/Firestore';
+import { verifyUserWithTxAPI } from './StateAPIs/P-Z/Tx';
+import { CatchingPokemonSharp } from '@mui/icons-material';
+import { doc, updateDoc } from 'firebase/firestore';
 
-function SignUp({ getLoginForm }) {
 
+function UpgradeForm({ userId }) {
     const statesList = [
         "Alabama", "Alaska", "Arizona", "Arkansas", "California",
         "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
@@ -94,7 +101,8 @@ function SignUp({ getLoginForm }) {
   const [expirationDate, setExpirationDate] = useState('');
   const [licenseType, setLicenseType] = useState('');
   const [licenseIssuingAuthority, setLicenseIssuingAuthority] = useState('');
-//   const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
+
+  //  const licenseIssuingAuthority = stateIssuingAuthorities[stateLicense] || '';
   const [selectedLicenseTypes, setSelectedLicenseTypes] = useState([]);
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
@@ -115,7 +123,7 @@ function SignUp({ getLoginForm }) {
       formattedInput += '/' + numericInput.slice(4, 8);
     }
 
-    setDateOfBirth(formattedInput);
+    setDateOfBirth(numericInput);
   };
 
   //   THIS ALLOWS THE CHARACTERS TO BE NUMBERS ONLY
@@ -123,18 +131,23 @@ function SignUp({ getLoginForm }) {
     const input = e.target.value;
     // Remove non-numeric characters
     const numericInput = input.replace(/\D/g, '');
-
+  
     // Apply auto-formatting
-    let formattedInput = '';
+    let formattedInput = ''; // Declare formattedInput variable
+  
     if (numericInput.length > 0) {
       formattedInput += numericInput.slice(0, 2);
     }
     if (numericInput.length > 2) {
       formattedInput += '/' + numericInput.slice(2, 4);
     }
-
+    if (numericInput.length > 4) {
+      formattedInput += '/' + numericInput.slice(4, 8);
+    }
+  
     setExpirationDate(formattedInput);
   };
+  
 
   //   LICENSE TYPE 
   const handleLicenseTypeChange = (e) => {
@@ -148,13 +161,186 @@ function SignUp({ getLoginForm }) {
     }
   };
 
+  //   MAKES SURE ATLEAST ONE LICENSE TYPE (CHECKBOX) IS SELECTED 
   const isAtLeastOneCheckboxSelected = selectedLicenseTypes.length > 0;
 
-//   ISSUING AUTHORITY 
-    const handleLicenseIssuingAuthorityChange = (selectedState) => {
+  //   ISSUING AUTHORITY 
+  const handleLicenseIssuingAuthorityChange = (selectedState) => {
     const issuingAuthority = stateIssuingAuthorities[selectedState] || '';
     setLicenseIssuingAuthority(issuingAuthority);
   };
+
+  // Handle upgrade form submission
+  const handleUpgradeREMOVE = (email) => {
+    upgradeAccount(email)
+        .then(() => {
+        console.log("Account upgrade request submitted");
+        // Additional logic after successful upgrade request (e.g., display success message)
+        })
+        .catch((error) => {
+        console.error("Error upgrading account: ", error);
+        // Handle the error appropriately (e.g., display an error message to the user)
+        });
+    };
+
+    const handleUpgrade = (email) => {
+        updateUserData(userId, { accountType: 'Professional' })
+          .then(() => {
+            console.log('Account upgrade request submitted');
+            // Additional logic after successful upgrade request (e.g., display success message)
+          })
+          .catch((error) => {
+            console.error('Error upgrading account: ', error);
+            // Handle the error appropriately (e.g., display an error message to the user)
+          });
+      };
+      
+
+const handleSubmit__Professional__Account = async (e, stateLicense) => {
+    e.preventDefault();
+  
+    try {
+      // Retrieve user data from Firebase
+      const userData = await getUserData(userId);
+      console.log(userId);
+      console.log('User Data:', userData);
+  
+      // Update the userData object with professional fields
+      const updatedUserData = {
+        ...userData,
+        professionalFirstName: firstName,
+        professionalLastName: lastName,
+        licenseNumber: licenseNumber,
+        licenseState: stateLicense,
+        licenseExpiration: expirationDate,
+      };
+  
+      // Verify user data with the appropriate verification API based on the selected state
+      let verificationResult;
+      if (stateLicense === 'Texas') {
+        verificationResult = await verifyUserWithTxAPI(updatedUserData);
+      } else if (stateLicense === 'Arizona') {
+        // verificationResult = await verifyUserWithAzAPI(updatedUserData);
+      } else {
+        // Handle other states or provide a default behavior
+        // For example, you can set verificationResult to a default value
+        verificationResult = { approvalStatus: 'Unknown' };
+      }
+  
+      // Update user account status based on the verification result
+      await updateAccountStatus(userId, verificationResult.approvalStatus);
+  
+      // Notify the user about the outcome
+      await notifyUser(userId, verificationResult.approvalStatus);
+  
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+  
+      // Additional logic if needed
+      handleUpgrade(); // Move the handleUpgrade() call inside the try block
+    } catch (error) {
+      console.error('Error handling upgrade request:', error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+
+  const TEST__handleSubmit__Professional__Account__WORKING = async (e, stateLicense) => {
+    e.preventDefault();
+  
+    try {
+      // Retrieve user data from Firebase
+      const userData = await getUserData(userId);
+      console.log(userId);
+      console.log('User Data:', userData);
+  
+      // Update the userData object with professional fields
+      const updatedUserData = {
+        ...userData,
+        professionalFirstName: firstName,
+        professionalLastName: lastName,
+        licenseNumber: licenseNumber,
+        licenseState: stateLicense,
+        licenseExpiration: expirationDate,
+      };
+  
+      console.log('Updated User Data:', updatedUserData);
+  
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+  
+      // Update the Firestore document with the updated userData
+      const userDocRef = doc(db, 'All__Accounts', userId);
+      await updateDoc(userDocRef, updatedUserData);
+  
+      // Additional logic if needed
+      handleUpgrade(email); // Move the handleUpgrade() call inside the try block
+    } catch (error) {
+      console.error('Error handling upgrade request:', error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+  
+
+const TEST__handleSubmit__Professional__Account = async (e, stateLicense) => {
+  e.preventDefault();
+
+  try {
+    // Retrieve user data from Firebase
+    const userData = await getUserData(userId);
+    console.log(userId);
+    console.log('User Data:', userData);
+
+    // Update the userData object with professional fields
+    const updatedUserData = {
+      ...userData,
+      professionalFirstName: firstName,
+      professionalLastName: lastName,
+      licenseNumber: licenseNumber,
+      licenseState: stateLicense,
+      licenseExpiration: expirationDate,
+    };
+
+    console.log('Updated User Data:', updatedUserData);
+
+    // Call the verifyUserWithTxAPI function to verify the user
+    const verificationResult = await verifyUserWithTxAPI(updatedUserData);
+    console.log('Verification Result:', verificationResult);
+
+    if (verificationResult.isMatch && verificationResult.approvalStatus === 'Approved') {
+      // User is verified and approved
+
+      // Call the addUser function with the updated userData
+      await addUser(email, firstName, lastName, 'professional', updatedUserData);
+
+      // Update the Firestore document with the updated userData
+      const userDocRef = doc(db, 'All__Accounts', userId);
+      await updateDoc(userDocRef, updatedUserData);
+
+      // Additional logic if needed
+      handleUpgrade(email); // Move the handleUpgrade() call inside the try block
+    } else {
+      // User is not verified or not approved
+      console.log('User verification failed or not approved');
+      // Handle the case accordingly (e.g., display an error message to the user)
+    }
+  } catch (error) {
+    console.error('Error handling upgrade request:', error);
+    // Handle the error appropriately (e.g., show an error message to the user)
+  }
+};
+
+  
+      
+      
+      
+      
+      
+      
+      
+      
+  
+
+  
   
 
   useEffect(() => {
@@ -168,7 +354,7 @@ function SignUp({ getLoginForm }) {
     <div className='upgrade__Form'>
       <div className="upgrade__Form__Container">
         <p>Sign Up to Cut Critic</p>
-        <form>
+        <form onSubmit={(e) => TEST__handleSubmit__Professional__Account(e, stateLicense)}>
 
           {/* FIRST NAME */}
           <div className="upgradeForm__Input">
@@ -224,7 +410,7 @@ function SignUp({ getLoginForm }) {
                     readOnly
                     placeholder="License Issuing Authority"
                 />
-            </div>
+          </div>
 
 
           {/* License Number */}
@@ -238,24 +424,13 @@ function SignUp({ getLoginForm }) {
                 />
           </div>
 
-          {/* DOB */}
-          {/* <div className="upgradeForm__Input">
-            <input 
-                type="text"
-                value={dateOfBirth}
-                onChange={handleDateOfBirthChange}
-                placeholder='Date of Birth MMDDYYYY'
-                required
-             />
-          </div> */}
-
           {/* LICENSE EXPIRATION */}
           <div className="upgradeForm__Input">
           <input
             type="text"
             value={expirationDate}
             onChange={handleExpirationDateChange}
-            placeholder="Expiration Date MMYY"
+            placeholder="Expiration Date MMDDYYYY"
             required
             />
           </div>
@@ -282,11 +457,7 @@ function SignUp({ getLoginForm }) {
                 {!isAtLeastOneCheckboxSelected && (
                     <p className="error-message">Please select at least one license type.</p>
                 )}
-            </div>
-
-
-
-
+           </div>
                 
           <button type='submit'>Submit Request</button>
         </form>
@@ -295,4 +466,4 @@ function SignUp({ getLoginForm }) {
   )
 }
 
-export default SignUp
+export default UpgradeForm

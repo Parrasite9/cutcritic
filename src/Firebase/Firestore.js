@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { query, where, getDocs, addDoc, collection, getFirestore } from 'firebase/firestore';
+import { query, where, getDocs, getDoc, addDoc, collection, getFirestore, doc, writeBatch, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDkIw6H5rzBkKyiEhEKGZEPpfSbHgSB-5Q",
@@ -16,18 +17,190 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app)
 
-export async function addUser(firstName, lastName, birthYear) {
+// THIS ASSIST WITH PUTTING USERS INSIDE OF THE ALL ACCOUNTS COLLECTION IN THE FIRESTORE 
+export async function addUser(email, firstName, lastName, accountType, professionalData = {}) {
   try {
-    const docRef = await addDoc(collection(db, "users"), {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    const userData = {
+      email: email,
       first: firstName,
       last: lastName,
-      born: birthYear,
-    });
-    console.log("Document written with ID: ", docRef.id);
+      accountType: accountType,
+      ...professionalData, // Include the professional fields if available
+    };
+
+
+    console.log("Updated userData:", userData);
+    const batch = writeBatch(db);
+
+    // Add the document to "All__Accounts" collection with the user ID as the document ID
+    const allAccountsRef = doc(collection(db, "All__Accounts"), userId);
+    batch.set(allAccountsRef, userData);
+
+    // Check if the accountType is "standard" and add the document to the separate collection
+    if (accountType === "standard") {
+      const standardAccountsRef = doc(collection(db, "StandardAccounts"), userId);
+      batch.set(standardAccountsRef, userData);
+    } else if (accountType === "professional") {
+      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
+      batch.set(professionalAccountsRef, userData);
+    }
+
+    await batch.commit();
+
+    console.log("User account created and populated in the All__Accounts collection");
+
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 }
+
+
+
+
+
+// IF ACC. IS UPGRADED, THIS REMOVES ACCOUNTS FROM STANDARD COLLECTION AND PLACES THEM IN UPGRADED COLLECTION
+export async function upgradeAccount(email, professionalData = {}) {
+  try {
+    const standardAccountsQuery = query(collection(db, "StandardAccounts"), where("email", "==", email));
+    const standardAccountsSnapshot = await getDocs(standardAccountsQuery);
+
+    if (!standardAccountsSnapshot.empty) {
+      const standardAccountDoc = standardAccountsSnapshot.docs[0];
+      const userId = standardAccountDoc.id;
+      const professionalAccountsRef = doc(collection(db, "ProfessionalAccounts"), userId);
+
+      const updatedUserData = {
+        accountType: "professional",
+        ...professionalData,
+      };
+
+      // Update the user document in the "StandardAccounts" collection with the professional information
+      const standardAccountsRef = doc(collection(db, "StandardAccounts"), userId);
+      await updateDoc(standardAccountsRef, updatedUserData);
+
+      // Update the user document in the "ProfessionalAccounts" collection
+      await setDoc(professionalAccountsRef, updatedUserData);
+
+      // Update the user document in the "All__Accounts" collection with the professional information
+      const allAccountsQuery = query(collection(db, "All__Accounts"), where("email", "==", email));
+      const allAccountsSnapshot = await getDocs(allAccountsQuery);
+
+      if (!allAccountsSnapshot.empty) {
+        const allAccountsDoc = allAccountsSnapshot.docs[0];
+        await updateDoc(allAccountsDoc.ref, updatedUserData);
+        console.log("User document successfully updated in the All__Accounts collection");
+      } else {
+        console.log("User not found in the All__Accounts collection");
+      }
+
+      // Delete the user document from the "StandardAccounts" collection
+      await deleteDoc(standardAccountDoc.ref);
+
+      console.log("Account successfully upgraded");
+    } else {
+      console.log("User not found in the StandardAccounts collection");
+    }
+  } catch (e) {
+    console.error("Error upgrading account: ", e);
+  }
+}
+
+// MAKES SURE LICENSE NUMBERS LIMITED TO ONE USER AT A TIME 
+export async function checkLicenseNumberExists(licenseNumber) {
+  try {
+    const allAccountsQuery = query(collection(db, "All__Accounts"), where("licenseNumber", "==", licenseNumber));
+    const allAccountsSnapshot = await getDocs(allAccountsQuery);
+    return !allAccountsSnapshot.empty;
+  } catch (error) {
+    console.error('Error checking license number:', error);
+    throw error;
+  }
+}
+
+// THIS FUNCTION EXPORTS USER DATA FROM THE FIRESTORE TO BE CALLED TO REACT FILES WHEN NEEDED 
+export async function getUserDataFromFirestore(userId) {
+  try {
+    const docRef = doc(db, 'ProfessionalAccounts', userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log('User not found in the ProfessionalAccounts collection');
+      return null;
+    }
+  } catch (e) {
+    console.error('Error fetching user data: ', e);
+    return null;
+  }
+}
+
+
+// Function to update service data in Firestore
+export const addServiceToFirestore = async (serviceData) => {
+  const user = auth.currentUser;
+  const userId = user.uid;
+  console.log('User ID:', userId);
+  try {
+    const allAccountsDocRef = doc(collection(db, 'All__Accounts'), userId);
+    const professionalAccountsRef = doc(collection(db, 'ProfessionalAccounts'), userId);
+
+    console.log('Service Data:', serviceData);
+    console.log('All__Accounts Document Reference:', allAccountsDocRef.path);
+    console.log('ProfessionalAccounts Document Reference:', professionalAccountsRef.path);
+
+    await updateDoc(allAccountsDocRef, serviceData);
+    console.log('Service data updated in All__Accounts');
+
+    await updateDoc(professionalAccountsRef, serviceData);
+    console.log('Service data updated in ProfessionalAccounts');
+  } catch (error) {
+    console.error('Error updating service data:', error);
+    throw error;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+// BELOW IS THE REQUIRED FUNCTION AND CALL FOR THE DOWNGRADE. THIS NEEDS TO BE PLACED 
+// IN A DIFFERENT FILE, POSSIBLY A SETTINGS PAGE WHERE IT HAS A DOWNGRADE OR DELETE ACCOUNT BUTTON. 
+// THIS IS JUST HERE FOR REFERENCE 
+// const handleDowngrade = async (email) => {
+//   try {
+//     await downgradeAccount(email);
+
+//     // Update the account type in the "All__Accounts" collection
+//     const allAccountsQuery = query(collection(db, "All__Accounts"), where("email", "==", email));
+//     const allAccountsSnapshot = await getDocs(allAccountsQuery);
+
+//     if (!allAccountsSnapshot.empty) {
+//       const allAccountsDoc = allAccountsSnapshot.docs[0];
+//       await updateDoc(allAccountsDoc.ref, { accountType: "standard" });
+
+//       console.log("Account type successfully updated in the All__Accounts collection");
+//     } else {
+//       console.log("User not found in the All__Accounts collection");
+//     }
+
+//     console.log("Account downgrade requested");
+//   } catch (error) {
+//     console.error("Error handling account downgrade:", error);
+//     // Handle the error appropriately (e.g., show an error message to the user)
+//   }
+// };
+
+
+// <button onClick={() => handleDowngrade(email)}>Downgrade Account</button>
+
 
 export async function fetchBarbersAndStylists() {
   try {
