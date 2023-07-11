@@ -12,6 +12,7 @@ import Dashboard from './Components/Dashboard/Paths/Dashboard'
 import UpgradePage from './Components/Home/AccountUpgrade/UpgradePage'
 import Dash_AddService from './Components/Dashboard/Paths/Services/Dash_AddService'
 import AddServiceForm from './Components/Dashboard/Paths/Services/AddServiceForm'
+import ServiceDetails from './Components/Dashboard/Paths/Services/ServiceDetails'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route path='/user/:id/dashboard/bookings' element={<Booking userId={userId} />} />
           <Route path='/user/:id/dashboard/services' element={<Dash_AddService userId={userId} />} />
           <Route path='/user/:id/dashboard/services/service_form' element={<AddServiceForm userId={userId} />} />
+          <Route path='/user/:id/dashboard/services/:serviceId' element={<ServiceDetails userId={userId} />} />
 
           {/* UPGRADE ACCOUNT ROUTE  */}
           <Route path='/upgrade' element={<UpgradePage userId={userId} />} />

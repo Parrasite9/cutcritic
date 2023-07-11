@@ -34,6 +34,7 @@ const auth = getAuth(app)
 
 
 
+
 // In summary, getUserData retrieves user data from Firebase, 
 // updateAccountStatus updates the account status in Firebase, 
 // and handleUpgradeRequest orchestrates the process of retrieving user data, 
@@ -160,5 +161,5 @@ const updateUserData = async (userId, userData) => {
 };
 
 
-export { addUser, db, auth, getUserData, updateAccountStatus, handleUpgradeRequest, notifyUser, updateUserData }
+export { addUser, db, auth, getUserData, updateAccountStatus, handleUpgradeRequest, notifyUser, updateUserData, app as firebaseApp }
 export default app
